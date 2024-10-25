@@ -1,30 +1,30 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Import Next.js router
-import { FaSearch } from "react-icons/fa";
-import { useFetch } from "../../action/customer"; // Adjust the import path if needed
+import { useRouter } from "next/navigation";
+import { useFetch } from "../../action/customer";
 import AddCustomer from "../AddCustomer";
+import { useAuth } from "@/app/context/AuthContext";
 
 const ListingCustomers = ({ setCustomerActive, customerActive }) => {
-  const router = useRouter(); // Get the Next.js router
+  const {user } = useAuth()
+  const router = useRouter(); 
   const [isMobile, setIsMobile] = useState(false);
-  const { data } = useFetch("/api/customers/allcustomers"); // Adjust API endpoint as needed
-
+  const { data } = useFetch("/api/customers/allcustomers"); 
   const handleResize = () => {
     setIsMobile(window.innerWidth < 720);
   };
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    handleResize(); // Check size on mount
+    handleResize(); 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleCustomerClick = (customer) => {
     if (isMobile) {
-      router.push(`/${customer._id}`); // Yeh aapko dynamic [id] route pe le jayega
+      router.push(`/singlepage/${customer._id}`); 
     } else {
-      setCustomerActive(customer); // Desktop view mein active customer set karega
+      setCustomerActive(customer); 
     }
   };
   
@@ -44,6 +44,16 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
       </div>
 
       <ul className="overflow-y-auto h-[calc(100vh-80px)] p-2 space-y-3">
+      <div className="text-center my-2">
+          {!user.token ? (
+            <h2 className="text-red-600 text-lg bg-red-100 border border-red-400 px-4 py-4 rounded-lg">
+               Not Available Customers! Please Login First <span className="text-lime-600">Make sure you loggedIn </span>
+            </h2>
+          ) : ""}
+        </div>
+
+
+
         <div className="text-center my-2">
           {data?.length <= 0 && (
             <h2 className="text-red-600 text-lg bg-red-100 border border-red-400 px-4 py-4 rounded-lg">
@@ -74,7 +84,7 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
                   </p>
                 </div>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-2">
                 <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-24 flex flex-col items-center justify-center p-2 shadow-lg">
                   <p className="text-2xl font-bold">{customer.totalGet}</p>
                   <small className="text-sm">Maine liye</small>

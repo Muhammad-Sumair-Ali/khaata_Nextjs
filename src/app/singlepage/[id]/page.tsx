@@ -1,26 +1,21 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import AddTransaction from "../AddTransaction";
-import { useParams } from "next/navigation"; // Import Next.js router
-import { useFetch } from "../../action/customer"; // Adjust the import path if needed
+import  { useFetch } from "@/app/action/customer";
+import { useParams } from "next/navigation"; 
+import AddTransaction from "@/app/components/AddTransaction";
+
 
 const CustomerSingle = ({ customerActive }) => {
-  // const router = useRouter(); // Get the router instance
-  const { id } = useParams(); // Extract the ID from the query parameters
-  const { data } = id ? useFetch(`/api/customers/singlecustomer/${id}`) : {}; // Fetch data based on ID
 
-  // Update customerActive based on fetched data
-  useEffect(() => {
-    if (data) {
-      customerActive = data?.data; // Update customerActive with fetched data
-    }
-  }, [data]);
+  const { id } = useParams(); 
+  const { data } = id ? useFetch(`/api/customers/getsingle/${id}`) : {};
 
-  // Calculate total amount due
-  const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-
-  // Sort transactions
-  const sortedTransactions = customerActive?.transactions?.sort((a, b) => 
+  if (data) {
+     customerActive = data?.data;
+  }
+  
+  let totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
+  let sortedTransactions = customerActive?.transactions?.sort((a, b) => 
     new Date(b.date) - new Date(a.date)
   );
 

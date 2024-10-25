@@ -5,11 +5,13 @@ import { useAuth } from '../context/AuthContext';
 
 
 
+
 export const useAddCustomer =  () => {
+  const {user} = useAuth()
+  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const {user} = useAuth()
- console.log(user)
+
 
   const handleAddCustomer = async (e) => {
     e.preventDefault();
@@ -19,27 +21,29 @@ export const useAddCustomer =  () => {
         { name, phone },
         {
           headers: {
-            Authorization: `Bearer ${ user._id}`,
+            Authorization: `Bearer ${ user.token || token}`,
           },
         }
       );
 
       alert(response.data.message || "Customer added successfully!");
+      setOpen(false);
     } catch (error) {
-      console.error("Error adding customer:", error); // Log the error
+      console.error("Error adding customer:", error); 
       alert(error.response?.data?.message || "Something went wrong!");
     }
-  };
+  }
 
-  return {
-    handleAddCustomer,
+  return{
+    open,
+    setOpen,
     name,
     setName,
     phone,
     setPhone,
-  };
+    handleAddCustomer
+  }
 };
-
 
 
 export const useAddTransactions = (customer, fetchAllCustomers) => {
@@ -48,13 +52,15 @@ export const useAddTransactions = (customer, fetchAllCustomers) => {
   const [transactionType, setTransactionType] = useState("give");
   const [details, setDetails] = useState("");
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleAddTransaction = async (e) => {
     e.preventDefault();
+    setLoading(true); 
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `/api/customers/addtransactions/${customer?._id}`,
+        `/api/customers/addtransections/${customer._id}`, 
         {
           amount: Number(amount),
           type: transactionType,
@@ -62,11 +68,10 @@ export const useAddTransactions = (customer, fetchAllCustomers) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token || token}`,
           },
         }
       );
-
       alert(response.data.message || "Transaction added successfully!");
       setUser((prev) => ({
         ...prev,
@@ -77,9 +82,10 @@ export const useAddTransactions = (customer, fetchAllCustomers) => {
       setAmount("");
       setDetails("");
       setOpen(false);
-    //   fetchAllCustomers();
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong!");
+      alert(error.response?.data?.message || error || "Error adding transaction");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,6 +99,7 @@ export const useAddTransactions = (customer, fetchAllCustomers) => {
     handleAddTransaction,
     open,
     setOpen,
+    loading, 
   };
 };
 
@@ -102,6 +109,7 @@ export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
  const {user} = useAuth()
+
   const fetchAllCustomers = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -110,6 +118,7 @@ export const useFetch = (url) => {
           Authorization: `Bearer ${user.toekn ||  token}`,
         },
       });
+      // console.log("response useFetch ==>", response)
       setData(response.data);
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching customers");

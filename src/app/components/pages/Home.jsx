@@ -1,29 +1,29 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import CustomerSingle from "@/app/[id]/page";
+import CustomerSingle from "@/app/singlepage/[id]/page";
 import ListingCustomers from "./ListingCustomers";
 import { useFetch } from "../../action/customer";
 import { useAuth } from "@/app/context/AuthContext";
+import DefaultPage from "../panel/DefaultPage";
 
 const Home = () => {
   const router = useRouter();
-  const { user } = useAuth(); // Directly destructure user
+  const { user } = useAuth(); 
   const [customerActive, setCustomerActive] = useState(null);
   const { data, error } = useFetch("/api/customers/allcustomers");
 
   useEffect(() => {
     if (!user) {
-      console.log("User not authenticated, redirecting to login.");
       router.push("/login");
     } else if (data) {
       const customer = data.find((c) => c._id === user._id);
       setCustomerActive(customer);
       if (!customer) {
-        console.log("No matching customer found.");
+        alert("No matching customer found.");
       }
     } else if (error) {
-      console.error("Error fetching customers:", error);
+      console.log("Error fetching customers:", error);
     }
   }, [data, error, user, router]);
 
@@ -41,9 +41,9 @@ const Home = () => {
             setCustomerActive={setCustomerActive} 
             customerActive={customerActive} 
           />
-        ) : (
-          <div>Please select a customer</div>
-        )}
+        ) : 
+          <DefaultPage/>
+        }
       </div>
     </div>
   );

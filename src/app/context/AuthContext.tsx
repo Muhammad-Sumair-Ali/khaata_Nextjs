@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     token: "",
   });
 
-  // Load token and user data from localStorage on app start
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');

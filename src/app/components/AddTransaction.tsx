@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAddTransactions, useFetch } from "@/app/action/customer";
@@ -7,7 +7,7 @@ const AddTransaction = ({ customer }) => {
   const { fetchAllCustomers } = useFetch("/api/customers/allcustomers");
   
   const { details, setDetails, amount, setAmount, transactionType, 
-    setTransactionType, handleAddTransaction, open, setOpen } = useAddTransactions(customer, fetchAllCustomers);
+    setTransactionType, handleAddTransaction, open, setOpen, loading } = useAddTransactions(customer, fetchAllCustomers);
   
   const isSelect = () => {
     alert("Please select a customer first");
@@ -31,11 +31,11 @@ const AddTransaction = ({ customer }) => {
         </button>
       )}
 
-      {/* Modal */}
+      
       {open && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
           <div className="relative w-full max-w-lg bg-white p-8 rounded-3xl shadow-xl">
-            {/* Close Button */}
+            
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -45,11 +45,11 @@ const AddTransaction = ({ customer }) => {
               <IoMdClose className="text-2xl" />
             </button>
 
-            {/* Modal Content */}
+            
             <div className="space-y-6">
               <h2 className="text-3xl font-bold text-gray-800">Add Transaction</h2>
 
-              {/* Form */}
+              
               <form onSubmit={handleAddTransaction} className="space-y-4">
                 {/* Amount Input */}
                 <div className="relative">
@@ -63,7 +63,6 @@ const AddTransaction = ({ customer }) => {
                   />
                 </div>
 
-                {/* Transaction Type Select */}
                 <div className="relative">
                   <label className="block text-lg font-semibold text-gray-700">Transaction Type</label>
                   <select
@@ -76,7 +75,7 @@ const AddTransaction = ({ customer }) => {
                   </select>
                 </div>
 
-                {/* Details Input */}
+              
                 <div className="relative">
                   <label className="block text-lg font-semibold text-gray-700">Details</label>
                   <textarea
@@ -87,13 +86,14 @@ const AddTransaction = ({ customer }) => {
                   />
                 </div>
 
-                {/* Submit Button */}
+            
                 <div className="flex items-center justify-end">
                   <button
                     type="submit"
-                    className="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform duration-200 ease-in-out transform hover:scale-105"
+                    disabled={loading} 
+                    className={`bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform duration-200 ease-in-out transform hover:scale-105 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    Save Transaction
+                    {loading ? 'Saving...' : 'Save Transaction'} 
                   </button>
                 </div>
               </form>

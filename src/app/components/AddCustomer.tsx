@@ -7,32 +7,15 @@ import axios from "axios";
 
 const AddCustomer = () => {
   const { user } = useAuth();
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
 
- console.log(user)
-
-  const handleAddCustomer = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem('token'); 
-      const response = await axios.post("/api/customers/addcustomer",
-        { name, phone },
-        {
-          headers: {
-            Authorization: `Bearer ${ user.token || token}`,
-          },
-        }
-      );
-
-      alert(response.data.message || "Customer added successfully!");
-    } catch (error) {
-      console.error("Error adding customer:", error); // Log the error
-      alert(error.response?.data?.message || "Something went wrong!");
-    }
-  }
-  
+  const { open,
+    setOpen,
+    name,
+    setName,
+    phone,
+    setPhone,
+    handleAddCustomer} = useAddCustomer();
+    
 
 
   const isSelect = () => {

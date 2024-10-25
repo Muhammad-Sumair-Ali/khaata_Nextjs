@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { connectDb } from '@/dbConfig/dbConfig';
 
 export async function POST(request: NextRequest) {
-  connectDb();  // Ensure the database is connected
+  connectDb(); 
   try {
 
     const { email, password } = await request.json();
@@ -43,9 +43,9 @@ export async function POST(request: NextRequest) {
       user: user
     });
   } catch (err) {
-    console.log('An error occurred:', err.message);  // Log the error
+    console.log('An error occurred:', err.message); 
     return NextResponse.json(
-      { error: err.message },  // Send the error details for debugging
+      { error: err.message },  
       { status: 500 }
     );
   }

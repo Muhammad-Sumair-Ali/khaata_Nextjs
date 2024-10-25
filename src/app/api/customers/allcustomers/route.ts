@@ -4,10 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken'; 
 
 export async function GET(req: NextRequest) {
-
-
    connectDb();
-
   try {
  
     const token = req.headers.get('Authorization')?.split(' ')[1];

@@ -1,17 +1,17 @@
 'use client'
-import { FaBook } from 'react-icons/fa'; // Icon for YourKhaata.co
-// import Logo from "../assets/logoKhaata.png";
+import Logo from "@/assets/logoKhaata.png";
+import Image from 'next/image';
 
 const DefaultPage = () => {
   return (
     <>
       <section className="flex items-center w-[100%] h-screen justify-center ">
         <div className="text-center bg-white h-full px-5 pt-14">
-          {/* <img
+          <Image
             alt="YourKhaata.co"
             src={Logo}
             className="mx-auto h-52 rounded-full w-auto mix-blend-multiply"
-          /> */}
+          />
           <h2 className="text-3xl font-semibold text-gray-900">
             Welcome to YourKhaata.co
           </h2>
