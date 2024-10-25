@@ -20,7 +20,7 @@ const Home = () => {
       const customer = data.find((c) => c._id === user._id);
       setCustomerActive(customer);
       if (!customer) {
-        alert("No matching customer found.");
+        console.log("No matching customer found.");
       }
     } else if (error) {
       console.log("Error fetching customers:", error);

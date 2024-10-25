@@ -46,7 +46,7 @@ export const useAddCustomer =  () => {
 };
 
 
-export const useAddTransactions = (customer, fetchAllCustomers) => {
+export const useAddTransactions = (customer) => {
   const { user, setUser } = useAuth();
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("give");
@@ -108,17 +108,16 @@ export const useAddTransactions = (customer, fetchAllCustomers) => {
 export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
- const {user} = useAuth()
-
+  const { user } = useAuth(); 
+  
   const fetchAllCustomers = async () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${user.toekn ||  token}`,
+          Authorization: `Bearer ${user?.token || token}`,
         },
       });
-      // console.log("response useFetch ==>", response)
       setData(response.data);
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching customers");
@@ -127,7 +126,7 @@ export const useFetch = (url) => {
 
   useEffect(() => {
     fetchAllCustomers();
-  }, [url]);
+  }, [url]); 
 
   return {
     data,

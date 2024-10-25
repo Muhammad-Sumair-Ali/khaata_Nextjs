@@ -5,7 +5,11 @@ import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
 import logo from '@/assets/logoKhaata.png'
+
+
+
 const Navar = () => {
+
   const { user } = useAuth();
   const { handleLogout } = useAuthentication();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -25,13 +29,14 @@ const Navar = () => {
           <div className="flex items-center justify-between space-x-40 sm:items-stretch sm:justify-start">
             <div className="flex items-center text-gray-900">
               <Link href="/">
-                {/* <Image
+                <Image
                   alt="png"
                   src={logo} 
                   className="mx-auto h-14 rounded-full w-auto mix-blend-multiply inline-block"
                   width={56}
                   height={56}
-                /> */}
+                  unoptimized
+                />
 
                 <span>YourKHAATA.co</span>
               </Link>

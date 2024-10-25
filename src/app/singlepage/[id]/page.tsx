@@ -14,10 +14,8 @@ const CustomerSingle = ({ customerActive }) => {
      customerActive = data?.data;
   }
   
-  let totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-  let sortedTransactions = customerActive?.transactions?.sort((a, b) => 
-    new Date(b.date) - new Date(a.date)
-  );
+  const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
+  const sortedTransactions = customerActive?.transactions?.sort((a, b) =>  new Date(b.date) - new Date(a.date));
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">

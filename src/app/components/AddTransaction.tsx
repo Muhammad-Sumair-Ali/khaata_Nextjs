@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAddTransactions, useFetch } from "@/app/action/customer";
 

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import Customer from '@/models/customerModel';
 import { connectDb } from '@/dbConfig/dbConfig';
 

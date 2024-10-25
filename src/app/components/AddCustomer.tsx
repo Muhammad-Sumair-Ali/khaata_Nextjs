@@ -1,9 +1,9 @@
 'use client'
-import React, { useState } from "react";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "@/app/context/AuthContext";
 import { useAddCustomer } from "@/app/action/customer";
-import axios from "axios";
+
 
 const AddCustomer = () => {
   const { user } = useAuth();

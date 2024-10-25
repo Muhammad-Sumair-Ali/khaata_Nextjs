@@ -15,6 +15,8 @@ export async function GET(req: NextRequest) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         userId = decoded?.id; 
       } catch (err) {
+        console.log(err)
+
         return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
       }
     }

@@ -1,7 +1,7 @@
-// pages/api/users/signup.js
+
 import { NextRequest, NextResponse } from 'next/server';
 import User from '@/models/userModel';
-import bcrypt from 'bcryptjs';
+
 import { connectDb } from '@/dbConfig/dbConfig';
 
 export async function POST(request: NextRequest) {
