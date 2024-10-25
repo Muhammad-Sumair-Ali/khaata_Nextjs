@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+// next.config.js
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    domains: ['encrypted-tbn0.gstatic.com', 'ui-avatars.com'], // Add allowed external domains here
+  },
 };
-
-export default nextConfig;
