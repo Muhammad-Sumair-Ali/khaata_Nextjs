@@ -10,7 +10,7 @@ import Loading from "@/app/components/panel/Loading";
 const CustomerSingle = ({ customerActive }) => {
 
   const { id } = useParams(); 
-  const { data } = useFetch(`/api/customers/getsingle/${id}`)
+  const { data } =  id ? useFetch(`/api/customers/getsingle/${id}`) : {};
 
   if (data) {
      customerActive = data?.data;
