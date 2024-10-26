@@ -6,10 +6,10 @@ import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
-// Define a specific type for customer
+// Define a specific type for transactions and customer
 interface Transaction {
   amount: number;
-  date: string; // or Date if you want to parse it later
+  date: string; // or Date if you parse it later
   type: 'give' | 'get';
   details: string;
 }
@@ -34,18 +34,19 @@ const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
     return <Loading />;
   }
 
-  customerActive = data?.data || customerActive;
+  const customerData = data?.data || customerActive;
 
-  const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-  const sortedTransactions = customerActive?.transactions?.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const totalKitneLeneHai = customerData?.totalGive - customerData?.totalGet;
+  const sortedTransactions = customerData?.transactions?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
+      {/* Header */}
       <div className="flex align-center justify-between items-center gap-2 w-full px-12 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-3">
           <Image
             className="ring-2 rounded-full p-1"
-            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive?.name}`}
+            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerData?.name}`}
             alt="Customer Avatar"
             width={40}
             height={40}
@@ -53,10 +54,9 @@ const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
             priority
           />
           <h1 className="font-semibold text-xl text-gray-800">
-            {customerActive?.name?.toUpperCase()}
+            {customerData?.name?.toUpperCase()}
           </h1>
         </div>
-
         <div className={`text-white text-lg rounded-xl h-14 flex items-center justify-center px-4 ${totalKitneLeneHai < 0 ? "bg-red-500" : "bg-blue-700"}`}>
           <strong className="block">
             {totalKitneLeneHai < 0 
@@ -68,18 +68,20 @@ const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
         </div>
       </div>
 
+      {/* Stats */}
       <div className="flex gap-6 w-3/4 mx-auto my-2">
         <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
-          <p className="text-2xl font-bold">{customerActive?.totalGet}</p>
+          <p className="text-2xl font-bold">{customerData?.totalGet}</p>
           <small className="text-sm">Maine liye</small>
         </button>
 
         <button className="bg-red-500 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
-          <p className="text-2xl font-bold">{customerActive?.totalGive}</p>
+          <p className="text-2xl font-bold">{customerData?.totalGive}</p>
           <small className="text-sm">Maine diye</small>
         </button>
       </div>
 
+      {/* Transactions */}
       <div className="flex-grow p-4 bg-gray-50 rounded-lg shadow-inner w-full">
         <div className="flex flex-col-reverse gap-4">
           {sortedTransactions?.map((trans, index) => (
@@ -94,8 +96,9 @@ const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
         </div>
       </div>
 
+      {/* Add Transaction Button */}
       <div className="p-4 fixed bottom-2 right-4">
-        <AddTransaction customer={customerActive} />
+        <AddTransaction customer={customerData} />
       </div>
     </div>
   );
