@@ -9,7 +9,7 @@ export async function GET(request) {
     const id = url.pathname.split('/').pop(); 
 
     try {
-        const data = await Customer.findById({id});
+        const data = await Customer.findById(id);
 
         if (!data) {
             return NextResponse.json({ message: 'Customer not found' }, { status: 404 });

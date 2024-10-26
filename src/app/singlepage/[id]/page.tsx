@@ -4,16 +4,20 @@ import  { useFetch } from "@/app/action/customer";
 import { useParams } from "next/navigation"; 
 import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
+import Loading from "@/app/components/panel/Loading";
 
 
 const CustomerSingle = ({ customerActive }) => {
 
   const { id } = useParams(); 
-  const { data } = id ? useFetch(`/api/customers/getsingle/${id}`) : {};
+  const { data } = useFetch(`/api/customers/getsingle/${id}`)
 
   if (data) {
      customerActive = data?.data;
   }
+  if (!data && !customerActive) {
+    return <Loading/>  }
+
   const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
   const sortedTransactions = customerActive?.transactions?.sort((a, b) =>  new Date(b.date) - new Date(a.date));
 
@@ -47,7 +51,6 @@ const CustomerSingle = ({ customerActive }) => {
         </div>
       </div>
 
-      {/* Customer Transaction Summary */}
       <div className="flex gap-6 w-3/4 mx-auto my-2">
         <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
           <p className="text-2xl font-bold">{customerActive?.totalGet}</p>

@@ -45,7 +45,7 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
 
       <ul className="overflow-y-auto h-[calc(100vh-80px)] p-2 space-y-3">
         <div className="text-center my-2">
-          {!user.token ? (
+          {!user ? (
             <h2 className="text-red-600 text-lg bg-red-100 border border-red-400 px-4 py-4 rounded-lg">
               Not Available Customers! Please Login First{" "}
               <span className="text-lime-600">Make sure you loggedIn </span>

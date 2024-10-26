@@ -109,17 +109,11 @@ export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const { user } = useAuth();
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem("token");
-      setToken(storedToken);
-    }
-  }, []);
 
   const fetchAllCustomers = useCallback(async () => {
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem("token") : '';
+      
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${user?.token || token}`,
@@ -127,9 +121,9 @@ export const useFetch = (url) => {
       });
       setData(response.data);
     } catch (err) {
-      setError(err.response?.data?.message || "Error fetching customers");
+      setError(err.message || "Error fetching");
     }
-  }, [url, user, token]);
+  }, [url, user]);
 
   useEffect(() => {
     if (user) fetchAllCustomers();
