@@ -6,7 +6,7 @@ import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
-const CustomerSingle = ({ customerActive }) => {
+const CustomerSingle = ({ customerActive }: { customerActive: any }) => {
   const { id } = useParams(); 
   const { data } = useFetch(id ? `/api/customers/getsingle/${id}` : null);
   
