@@ -1,63 +1,45 @@
-'use client';
+'use client'
 import React from "react";
-import { useFetch } from "@/app/action/customer";
+import  { useFetch } from "@/app/action/customer";
 import { useParams } from "next/navigation"; 
 import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
-// Define the structure for a Customer type
-interface Transaction {
-  type: "get" | "give";
-  amount: number;
-  details: string;
-  date: string;
-}
 
-interface Customer {
-  name: string;
-  totalGive: number;
-  totalGet: number;
-  transactions: Transaction[];
-}
+const CustomerSingle = ({ customerActive,setCustomerActive }) => {
 
-// Props for the CustomerSingle component
-interface CustomerSingleProps {
-  customerActive: Customer | null;
-}
-
-const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
   const { id } = useParams(); 
-  const { data } = useFetch(id ? `/api/customers/getsingle/${id}` : null);
-  
-  // Handle loading state
-  if (!data && !customerActive) {
-    return <Loading />;
-  }
+  const { data } =  id ? useFetch(`/api/customers/getsingle/${id}`) : {};
 
-  customerActive = data?.data || customerActive;
+  if (data) {
+    setCustomerActive( data?.data)
+  }
+  if (!data && !customerActive) {
+    return <Loading/>  }
 
   const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-  const sortedTransactions = customerActive?.transactions?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const sortedTransactions = customerActive?.transactions?.sort((a, b) =>  new Date(b.date) - new Date(a.date));
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
       <div className="flex align-center justify-between items-center gap-2 w-full px-12 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-3">
           <Image
-            className="ring-2 rounded-full p-1"
+            className=" ring-2 rounded-full p-1"
             src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive?.name}`}
             alt="Customer Avatar"
             width={40}
             height={40}
             unoptimized
             priority
+            
           />
           <h1 className="font-semibold text-xl text-gray-800">
             {customerActive?.name?.toUpperCase()}
           </h1>
         </div>
-
+        
         <div className={`text-white text-lg rounded-xl h-14 flex items-center justify-center px-4 ${totalKitneLeneHai < 0 ? "bg-red-500" : "bg-blue-700"}`}>
           <strong className="block">
             {totalKitneLeneHai < 0 
@@ -80,7 +62,7 @@ const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
           <small className="text-sm">Maine diye</small>
         </button>
       </div>
-
+   
       <div className="flex-grow p-4 bg-gray-50 rounded-lg shadow-inner w-full">
         <div className="flex flex-col-reverse gap-4">
           {sortedTransactions?.map((trans, index) => (
