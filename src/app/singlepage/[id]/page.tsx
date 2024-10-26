@@ -6,43 +6,47 @@ import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
-
+// Define the structure for a Customer type
+interface Transaction {
+  type: "get" | "give";
+  amount: number;
+  details: string;
+  date: string;
+}
 
 interface Customer {
   name: string;
   totalGive: number;
   totalGet: number;
-  transactions: Array<{
-    amount: number;
-    date: string;
-    type: 'give' | 'get';
-    details: string;
-  }>;
+  transactions: Transaction[];
 }
 
+// Props for the CustomerSingle component
+interface CustomerSingleProps {
+  customerActive: Customer | null;
+}
 
-
-const CustomerSingle: React.FC<{ customerActive: Customer | null }> = ({ customerActive }) => {
+const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
   const { id } = useParams(); 
   const { data } = useFetch(id ? `/api/customers/getsingle/${id}` : null);
   
+  // Handle loading state
   if (!data && !customerActive) {
     return <Loading />;
   }
 
-  const customerData = data?.data || customerActive;
+  customerActive = data?.data || customerActive;
 
-  const totalKitneLeneHai = customerData?.totalGive - customerData?.totalGet;
-  const sortedTransactions = customerData?.transactions?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
+  const sortedTransactions = customerActive?.transactions?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
-      {/* Header */}
       <div className="flex align-center justify-between items-center gap-2 w-full px-12 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-3">
           <Image
             className="ring-2 rounded-full p-1"
-            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerData?.name}`}
+            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive?.name}`}
             alt="Customer Avatar"
             width={40}
             height={40}
@@ -50,9 +54,10 @@ const CustomerSingle: React.FC<{ customerActive: Customer | null }> = ({ custome
             priority
           />
           <h1 className="font-semibold text-xl text-gray-800">
-            {customerData?.name?.toUpperCase()}
+            {customerActive?.name?.toUpperCase()}
           </h1>
         </div>
+
         <div className={`text-white text-lg rounded-xl h-14 flex items-center justify-center px-4 ${totalKitneLeneHai < 0 ? "bg-red-500" : "bg-blue-700"}`}>
           <strong className="block">
             {totalKitneLeneHai < 0 
@@ -64,20 +69,18 @@ const CustomerSingle: React.FC<{ customerActive: Customer | null }> = ({ custome
         </div>
       </div>
 
-      {/* Stats */}
       <div className="flex gap-6 w-3/4 mx-auto my-2">
         <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
-          <p className="text-2xl font-bold">{customerData?.totalGet}</p>
+          <p className="text-2xl font-bold">{customerActive?.totalGet}</p>
           <small className="text-sm">Maine liye</small>
         </button>
 
         <button className="bg-red-500 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
-          <p className="text-2xl font-bold">{customerData?.totalGive}</p>
+          <p className="text-2xl font-bold">{customerActive?.totalGive}</p>
           <small className="text-sm">Maine diye</small>
         </button>
       </div>
 
-      {/* Transactions */}
       <div className="flex-grow p-4 bg-gray-50 rounded-lg shadow-inner w-full">
         <div className="flex flex-col-reverse gap-4">
           {sortedTransactions?.map((trans, index) => (
@@ -92,9 +95,8 @@ const CustomerSingle: React.FC<{ customerActive: Customer | null }> = ({ custome
         </div>
       </div>
 
-      {/* Add Transaction Button */}
       <div className="p-4 fixed bottom-2 right-4">
-        <AddTransaction customer={customerData} />
+        <AddTransaction customer={customerActive} />
       </div>
     </div>
   );
