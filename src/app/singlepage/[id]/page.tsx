@@ -7,13 +7,13 @@ import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
 
-const CustomerSingle = ({ customerActive,setCustomerActive }) => {
+const CustomerSingle = ({ customerActive }) => {
 
   const { id } = useParams(); 
   const { data } =  id ? useFetch(`/api/customers/getsingle/${id}`) : {};
 
   if (data) {
-    setCustomerActive( data?.data)
+     customerActive = data?.data;
   }
   if (!data && !customerActive) {
     return <Loading/>  }

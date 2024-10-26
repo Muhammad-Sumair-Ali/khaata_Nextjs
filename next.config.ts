@@ -5,6 +5,6 @@ module.exports = {
     domains: ['encrypted-tbn0.gstatic.com', 'ui-avatars.com'], // Add allowed external domains here
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Ignore ESLint errors during builds
   },
 };
