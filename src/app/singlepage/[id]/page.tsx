@@ -6,27 +6,23 @@ import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
-// Define a specific type for transactions and customer
-interface Transaction {
-  amount: number;
-  date: string; // or Date if you parse it later
-  type: 'give' | 'get';
-  details: string;
-}
+
 
 interface Customer {
   name: string;
   totalGive: number;
   totalGet: number;
-  transactions: Transaction[];
+  transactions: Array<{
+    amount: number;
+    date: string;
+    type: 'give' | 'get';
+    details: string;
+  }>;
 }
 
-// Update the props type
-interface CustomerSingleProps {
-  customerActive: Customer | null; // Make it nullable to handle loading states
-}
 
-const CustomerSingle: React.FC<CustomerSingleProps> = ({ customerActive }) => {
+
+const CustomerSingle: React.FC<{ customerActive: Customer | null }> = ({ customerActive }) => {
   const { id } = useParams(); 
   const { data } = useFetch(id ? `/api/customers/getsingle/${id}` : null);
   
