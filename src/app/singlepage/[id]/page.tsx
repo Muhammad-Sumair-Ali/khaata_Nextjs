@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React from "react";
 import  { useFetch } from "@/app/action/customer";
 import { useParams } from "next/navigation"; 
 import AddTransaction from "@/app/components/AddTransaction";
