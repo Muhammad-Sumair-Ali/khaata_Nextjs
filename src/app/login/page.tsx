@@ -37,9 +37,9 @@ const LoginPage = () => {
       setSuccess(response.data.message);
       alert(response.data.message)
      
-    } catch (err) {
-      alert(err.message)
-      setError(err.response?.data.message || 'Login failed');
+    } catch (error) {
+      alert(error.message)
+      setError(error.response?.data.message || 'Login failed');
     }
   };
 
@@ -52,7 +52,10 @@ const LoginPage = () => {
         <Image
           alt="YourKhaata.co"
           src={Logo}
-          className="mx-auto h-24 rounded-full w-auto mix-blend-multiply"
+          className="mx-auto  rounded-full mix-blend-multiply"
+          width={150}
+          height={150}
+          unoptimized
         />
         <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
@@ -88,9 +91,9 @@ const LoginPage = () => {
                 Password
               </label>
               <div className="text-sm">
-                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                <p className="font-semibold text-indigo-600 hover:text-indigo-500">
                   Forgot password?
-                </a>
+                </p>
               </div>
             </div>
             <div className="mt-2">

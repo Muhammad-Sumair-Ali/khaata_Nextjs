@@ -125,8 +125,9 @@ export const useFetch = (url) => {
   };
 
   useEffect(() => {
-    fetchAllCustomers();
-  }, [url]); 
+    if(user && user) fetchAllCustomers();
+  }, []); 
+  
 
   return {
     data,

@@ -37,7 +37,11 @@ const SignupPage = () => {
         <Image
           alt="YourKhaata.co"
           src={Logo}
-          className="mx-auto h-24 rounded-full w-auto mix-blend-multiply"
+          className="mx-auto rounded-full mix-blend-multiply"
+          width={150}
+          height={150}
+          unoptimized
+          priority 
         />
         <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Signup & 

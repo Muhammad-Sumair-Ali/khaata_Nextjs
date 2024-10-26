@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import  { useFetch } from "@/app/action/customer";
 import { useParams } from "next/navigation"; 
 import AddTransaction from "@/app/components/AddTransaction";
+import Image from "next/image";
 
 
 const CustomerSingle = ({ customerActive }) => {
@@ -21,10 +22,15 @@ const CustomerSingle = ({ customerActive }) => {
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
       <div className="flex align-center justify-between items-center gap-2 w-full px-12 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-3">
-          <img
-            className="h-12 w-12 ring-2 rounded-full p-1"
+          <Image
+            className=" ring-2 rounded-full p-1"
             src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive?.name}`}
             alt="Customer Avatar"
+            width={40}
+            height={40}
+            unoptimized
+            priority
+            
           />
           <h1 className="font-semibold text-xl text-gray-800">
             {customerActive?.name?.toUpperCase()}
