@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext';
 
 
@@ -108,10 +108,17 @@ export const useAddTransactions = (customer) => {
 export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const { user } = useAuth(); 
-  
-  const fetchAllCustomers = async () => {
-    const token = localStorage.getItem("token");
+  const { user } = useAuth();
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }
+  }, []);
+
+  const fetchAllCustomers = useCallback(async () => {
     try {
       const response = await axios.get(url, {
         headers: {
@@ -122,16 +129,11 @@ export const useFetch = (url) => {
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching customers");
     }
-  };
+  }, [url, user, token]);
 
   useEffect(() => {
-    if(user && user) fetchAllCustomers();
-  }, []); 
-  
+    if (user) fetchAllCustomers();
+  }, [user, fetchAllCustomers]);
 
-  return {
-    data,
-    fetchAllCustomers,
-    error,
-  };
+  return { data, error };
 };
