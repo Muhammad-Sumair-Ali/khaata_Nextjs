@@ -16,8 +16,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>{metadata.title || "Default Title"}</title>
-        <meta name="description" content={metadata.description || "Default description"} />
+        <title>{String(metadata.title) || "Default Title"}</title>
+        <meta name="description" content={String(metadata.description) || "Default description"} />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
