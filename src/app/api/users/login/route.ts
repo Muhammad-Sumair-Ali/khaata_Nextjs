@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
             user: user
         });
     } catch (err) {
-      const errorMessage = (err as Error).message;  // Cast err to Error
+      const errorMessage = (err as Error).message;  
       console.log('An error occurred:', errorMessage);
       return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
