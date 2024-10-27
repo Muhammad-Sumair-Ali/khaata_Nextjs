@@ -1,42 +1,58 @@
-'use client'
-import React from "react";
-import  { useFetch } from "@/app/action/customer";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { useFetch } from "@/app/action/customer"; 
 import { useParams } from "next/navigation"; 
 import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
 
+interface Transaction {
+  amount: number;
+  details: string;
+  date: string;
+  type: "get" | "give";
+}
 
-const CustomerSingle = ({ customerActive }: any ) => {
+interface CustomerData {
+  name: string;
+  totalGet: number;
+  totalGive: number;
+  transactions: Transaction[];
+}
 
-  const { id } = useParams(); 
-  const { data } =  id ? useFetch(`/api/customers/getsingle/${id}`) : {};
+const CustomerSingle = () => {
+  const { id } = useParams();
+  const { data } = id ? useFetch(`/api/customers/getsingle/${id}`) : { data: null };
+  const [customerActive, setCustomerActive] = useState<CustomerData | null>(null);
 
-  if (data) {
-     customerActive = data?.data;
+  useEffect(() => {
+    if (data) {
+      setCustomerActive(data.data);
+    }
+  }, [data]);
+
+  if (!customerActive) {
+    return <Loading />;
   }
-  if (!data && !customerActive) {
-    return <Loading/>  }
 
-  const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-  const sortedTransactions = customerActive?.transactions?.sort((a, b) =>  new Date(b.date) - new Date(a.date));
+  const totalKitneLeneHai = customerActive.totalGive - customerActive.totalGet;
+  const sortedTransactions = customerActive.transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
       <div className="flex align-center justify-between items-center gap-2 w-full px-12 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-3">
           <Image
-            className=" ring-2 rounded-full p-1"
-            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive?.name}`}
+            className="ring-2 rounded-full p-1"
+            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive.name}`}
             alt="Customer Avatar"
             width={40}
             height={40}
             unoptimized
             priority
-            
           />
           <h1 className="font-semibold text-xl text-gray-800">
-            {customerActive?.name?.toUpperCase()}
+            {customerActive.name.toUpperCase()}
           </h1>
         </div>
         
@@ -53,19 +69,19 @@ const CustomerSingle = ({ customerActive }: any ) => {
 
       <div className="flex gap-6 w-3/4 mx-auto my-2">
         <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
-          <p className="text-2xl font-bold">{customerActive?.totalGet}</p>
+          <p className="text-2xl font-bold">{customerActive.totalGet}</p>
           <small className="text-sm">Maine liye</small>
         </button>
 
         <button className="bg-red-500 text-white text-base rounded-lg h-16 w-full flex flex-col items-center justify-center shadow-lg">
-          <p className="text-2xl font-bold">{customerActive?.totalGive}</p>
+          <p className="text-2xl font-bold">{customerActive.totalGive}</p>
           <small className="text-sm">Maine diye</small>
         </button>
       </div>
-   
+
       <div className="flex-grow p-4 bg-gray-50 rounded-lg shadow-inner w-full">
         <div className="flex flex-col-reverse gap-4">
-          {sortedTransactions?.map((trans, index) => (
+          {sortedTransactions.map((trans, index) => (
             <div key={index} className={`flex ${trans.type === "get" ? "justify-start" : "justify-end"}`}>
               <div className={`p-3 rounded-lg max-w-xs ${trans.type === "get" ? "bg-blue-200 text-black" : "bg-red-200 text-black"} shadow-md`}>
                 <p className="font-semibold">Amount: Rs. {trans.amount}</p>
