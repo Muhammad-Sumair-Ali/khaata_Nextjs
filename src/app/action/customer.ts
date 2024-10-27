@@ -46,7 +46,7 @@ export const useAddCustomer =  () => {
 };
 
 
-export const useAddTransactions = (customer) => {
+export const useAddTransactions = (customer: any) => {
   const { user, setUser }:any  = useAuth();
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("give");
@@ -105,7 +105,7 @@ export const useAddTransactions = (customer) => {
 
 
 
-export const useFetch = (url) => {
+export const useFetch = (url: any) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const { user }:any = useAuth();
