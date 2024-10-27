@@ -21,7 +21,15 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        if (!process.env.JWT_SECRET) {
+          throw new Error("JWT_SECRET environment variable is not set.");
+        }
+        const token = jwt.sign(
+          { id: user._id },
+          process.env.JWT_SECRET, 
+          { expiresIn: '24h' }
+        );
+        
 
         return NextResponse.json({
             message: 'Login successful',
