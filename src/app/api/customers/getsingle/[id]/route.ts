@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import Customer from '@/models/customerModel';
 import { connectDb } from '@/dbConfig/dbConfig';
 
-export async function GET(request) {
-     connectDb();
+export async function GET(request: NextRequest) {
+    connectDb();
 
     const url = new URL(request.url);
     const id = url.pathname.split('/').pop(); 
