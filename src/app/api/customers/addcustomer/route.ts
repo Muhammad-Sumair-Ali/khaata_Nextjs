@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (token) {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
-        userId = decoded.id as string; 
+        userId = decoded?.id as string;
       } catch (err) {
         console.log(err);
         return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
@@ -37,6 +37,9 @@ export async function POST(req: NextRequest) {
 
   } catch (err) {
     console.error('Error adding customer:', err);
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(
+      JSON.stringify({ error: (err as Error).message }), // Casting err as Error
+      { status: 500 }
+    );
   }
 }
