@@ -1,22 +1,22 @@
 import { connectDb } from "@/dbConfig/dbConfig";
 import Customer from "@/models/customerModel";
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken'; 
+import jwt, { JwtPayload } from 'jsonwebtoken'; 
 
 export async function POST(req: NextRequest) {
- connectDb();
+  connectDb();
   try {
     const { name, phone } = await req.json();
    
     const token = req.headers.get('Authorization')?.split(' ')[1];
-    let userId = null;
+    let userId: string | null = null;
 
     if (token) {
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-        userId = decoded?.id; 
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+        userId = decoded.id as string; 
       } catch (err) {
-        console.log(err)
+        console.log(err);
         return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
       }
     }
@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
     });
 
     await newCustomer.save(); 
-
 
     return new Response(JSON.stringify(newCustomer), { status: 201 });
 
