@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error adding transaction:", error);
     return NextResponse.json(
-      { message: (error as Error).message || 'An unexpected error occurred' }, // Handle unknown error messages
+      { message: (error as Error).message || 'An unexpected error occurred' }, 
       { status: 500 }
     );
   }
