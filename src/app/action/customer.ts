@@ -28,7 +28,7 @@ export const useAddCustomer =  () => {
 
       alert(response.data.message || "Customer added successfully!");
       setOpen(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding customer:", error); 
       alert(error.response?.data?.message || "Something went wrong!");
     }
@@ -82,7 +82,7 @@ export const useAddTransactions = (customer) => {
       setAmount("");
       setDetails("");
       setOpen(false);
-    } catch (error) {
+    } catch (error: any) {
       alert(error.response?.data?.message || error || "Error adding transaction");
     } finally {
       setLoading(false);
@@ -120,7 +120,7 @@ export const useFetch = (url) => {
         },
       });
       setData(response.data);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || "Error fetching");
     }
   }, [url, user]);

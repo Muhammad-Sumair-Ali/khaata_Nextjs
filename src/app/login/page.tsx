@@ -36,7 +36,7 @@ const LoginPage = () => {
 
       setSuccess(response.data.message);
       alert(response.data.message);
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Login failed";
       alert(errorMessage);
       setError(errorMessage);

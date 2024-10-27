@@ -24,7 +24,7 @@ const SignupPage = () => {
         password,
       });
       setSuccess(response.data.message);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data.message || 'Signup failed');
     }
   };
