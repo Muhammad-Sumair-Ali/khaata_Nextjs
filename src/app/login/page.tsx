@@ -13,8 +13,8 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    event.preventDefault();
     setError("");
     setSuccess("");
 

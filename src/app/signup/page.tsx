@@ -12,8 +12,8 @@ const SignupPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
+  const handleSignup = async () => {
+    event.preventDefault();
     setError('');
     setSuccess('');
 

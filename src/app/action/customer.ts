@@ -13,8 +13,8 @@ export const useAddCustomer =  () => {
   const [phone, setPhone] = useState("");
 
 
-  const handleAddCustomer = async (e) => {
-    e.preventDefault();
+  const handleAddCustomer = async () => {
+    event.preventDefault();
     try {
       const token = localStorage.getItem('token'); 
       const response = await axios.post("/api/customers/addcustomer",
@@ -54,8 +54,8 @@ export const useAddTransactions = (customer) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleAddTransaction = async (e) => {
-    e.preventDefault();
+  const handleAddTransaction = async () => {
+    event.preventDefault();
     setLoading(true); 
     try {
       const token = localStorage.getItem("token");
