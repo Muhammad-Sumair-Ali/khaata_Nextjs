@@ -12,7 +12,7 @@ const SignupPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSignup = async () => {
+  const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault();
     setError('');
     setSuccess('');

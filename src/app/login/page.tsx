@@ -13,7 +13,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     setError("");
     setSuccess("");

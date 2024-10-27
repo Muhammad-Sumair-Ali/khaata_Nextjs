@@ -13,7 +13,7 @@ export const useAddCustomer =  () => {
   const [phone, setPhone] = useState("");
 
 
-  const handleAddCustomer = async () => {
+  const handleAddCustomer = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       const token = localStorage.getItem('token'); 
@@ -54,7 +54,7 @@ export const useAddTransactions = (customer) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleAddTransaction = async () => {
+  const handleAddTransaction = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); 
     try {
