@@ -106,16 +106,16 @@ export const useAddTransactions = (customer: any) => {
 
 
 
-export const useFetch = (url: any) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const { user }:any = useAuth();
+export const useFetch = <T>(url: string) => {
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const { user }: any = useAuth();
 
   const fetchAllCustomers = useCallback(async () => {
     try {
       const token = typeof window !== 'undefined' ? localStorage.getItem("token") : '';
       
-      const response = await axios.get(url, {
+      const response = await axios.get<T>(url, {
         headers: {
           Authorization: `Bearer ${user?.token || token}`,
         },
