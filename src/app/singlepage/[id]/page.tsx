@@ -70,7 +70,7 @@ const CustomerSingle = ({ customerActive }: any) => {
    
       <div className="flex-grow p-4 bg-gray-50 rounded-lg shadow-inner w-full">
         <div className="flex flex-col-reverse gap-4">
-          {sortedTransactions?.map((trans, index) => (
+          {sortedTransactions?.map((trans: any, index: any) => (
             <div key={index} className={`flex ${trans.type === "get" ? "justify-start" : "justify-end"}`}>
               <div className={`p-3 rounded-lg max-w-xs ${trans.type === "get" ? "bg-blue-200 text-black" : "bg-red-200 text-black"} shadow-md`}>
                 <p className="font-semibold">Amount: Rs. {trans.amount}</p>
