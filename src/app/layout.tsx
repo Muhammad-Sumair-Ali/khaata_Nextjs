@@ -5,7 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 export const metadata: Metadata = {
   title: "YourKhaata.co",
-  description: "YourKhaata app developed by Muhammad Sumair Easy To Manage Your Regular Customers Expences",
+  description: "YourKhaata app developed by Muhammad Sumair - Easy To Manage Your Regular Customers' Expenses",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>{metadata?.title}</title>
-        <meta name="description" content={metadata?.description} />
+        <meta name="description" content={metadata.description} />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
