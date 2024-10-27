@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     if (token) {
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
         userId = decoded?.id; 
       } catch (err) {
         console.log(err)
