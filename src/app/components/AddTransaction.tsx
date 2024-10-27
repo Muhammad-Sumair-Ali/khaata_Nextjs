@@ -1,13 +1,12 @@
 'use client';
 import React from "react";
 import { IoMdClose } from "react-icons/io";
-import { useAddTransactions, useFetch } from "@/app/action/customer";
+import { useAddTransactions } from "@/app/action/customer";
 
 const AddTransaction = ({ customer }:any ) => {
-  const { fetchAllCustomers }:any  = useFetch("/api/customers/allcustomers");
   
   const { details, setDetails, amount, setAmount, transactionType, 
-    setTransactionType, handleAddTransaction, open, setOpen, loading } = useAddTransactions(customer, fetchAllCustomers);
+    setTransactionType, handleAddTransaction, open, setOpen, loading } = useAddTransactions(customer);
   
   const isSelect = () => {
     alert("Please select a customer first");
