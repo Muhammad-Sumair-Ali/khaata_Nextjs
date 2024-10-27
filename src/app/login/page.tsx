@@ -7,7 +7,7 @@ import Logo from "@/assets/logoKhaata.png";
 import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
-  const { setUser }:any  = useAuth();
+  const { setUser, user }:any  = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,11 +28,12 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(response.data.user));
       console.log("Respone => ", response);
 
-      setUser((prev) => ({
+      setUser((prev: typeof user) => ({
         ...prev,
         user: response.data.user,
         token: response.data.token,
       }));
+      
 
       setSuccess(response.data.message);
       alert(response.data.message);

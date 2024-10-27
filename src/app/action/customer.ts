@@ -73,10 +73,11 @@ export const useAddTransactions = (customer: any) => {
         }
       );
       alert(response.data.message || "Transaction added successfully!");
-      setUser((prev) => ({
+      setUser((prev: typeof user) => ({
         ...prev,
         user: response.data,
       }));
+      
 
      
       setAmount("");
