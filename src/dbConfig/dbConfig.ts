@@ -2,7 +2,13 @@ import mongoose from "mongoose";
 
 export async function connectDb() {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    const mongoUrl = process.env.MONGO_URL;
+
+    if (!mongoUrl) {
+      throw new Error("MONGO_URL environment variable is not set.");
+    }
+
+    await mongoose.connect(mongoUrl);
 
     const connection = mongoose.connection;
 
@@ -11,11 +17,11 @@ export async function connectDb() {
     });
 
     connection.on("error", (err) => {
-      console.log("MongoDB connection error: " + err);
+      console.error("MongoDB connection error: " + err);
     });
 
   } catch (error) {
-    console.log("Failed to connect to MongoDB");
-    console.log(error);
+    console.error("Failed to connect to MongoDB");
+    console.error(error);
   }
 }
