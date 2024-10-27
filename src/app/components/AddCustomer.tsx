@@ -3,6 +3,7 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "@/app/context/AuthContext";
 import { useAddCustomer } from "@/app/action/customer";
+import Link from "next/link";
 
 
 const AddCustomer = () => {
@@ -18,19 +19,17 @@ const AddCustomer = () => {
     
 
 
-  const isSelect = () => {
-    alert("Please login first");
-  };
+
 
   return (
     <>
       {!user?.token ? (
-        <button
-          onClick={isSelect}
+        <Link
+          href="/login"
           className="bg-blue-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Add New Customer
-        </button>
+          Login
+        </Link>
       ) : (
         <button
           onClick={() => setOpen(true)}

@@ -5,16 +5,20 @@ import { useFetch } from "../../action/customer";
 import AddCustomer from "../AddCustomer";
 import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
+import Logo from "@/assets/logoKhaata.png";
+import WelcomeUser from "../panel/WelcomeUser";
+import Link from "next/link";
 
 const ListingCustomers = ({ setCustomerActive, customerActive }) => {
   const { user } = useAuth();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const { data } = useFetch("/api/customers/allcustomers");
+  
   const handleResize = () => {
     setIsMobile(window.innerWidth < 720);
   };
-
+  
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -44,24 +48,42 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
       </div>
 
       <ul className="overflow-y-auto h-[calc(100vh-80px)] p-2 space-y-3">
-        <div className="text-center my-2">
-          {!user ? (
-            <h2 className="text-red-600 text-lg bg-red-100 border border-red-400 px-4 py-4 rounded-lg">
-              Not Available Customers! Please Login First{" "}
-              <span className="text-lime-600">Make sure you loggedIn </span>
-            </h2>
+        <div className="flex flex-col items-center justify-center bg-gray-50 p-4 text-center">
+          {!user.token ? (
+            <>
+              <Image
+                src={Logo}
+                alt="YourKhaata Logo"
+                className="mb-4 rounded-full "
+                width={200}
+                height={200}
+                unoptimized
+                priority
+              />
+              <h2 className="text-3xl font-extrabold text-gray-800 mb-2">
+                Welcome to Your Khaata!
+              </h2>
+              <p className="text-lg text-gray-700 mb-4">
+                It looks like you haven't logged in yet.
+              </p>
+              <h2 className="text-lg bg-red-100 border border-red-400 text-red-600 px-4 py-3 rounded-lg shadow-md mb-4">
+                No Customers Available!{" "}
+                <span className="font-semibold">Please log in first</span>
+              </h2>
+              <Link
+                href="/login"
+                className="mt-4 px-6 py-3 bg-indigo-700 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              >
+                Login & Register Now!
+              </Link>
+            </>
           ) : (
-            ""
+            <span className="h-0 w-0"></span>
           )}
         </div>
 
         <div className="text-center my-2">
-          {data?.length <= 0 && (
-            <h2 className="text-red-600 text-lg bg-red-100 border border-red-400 px-4 py-4 rounded-lg">
-              Customers Not Available!{" "}
-              <span className="text-lime-600">Add Now New Customers</span>
-            </h2>
-          )}
+          {data?.length <= 0 ? <WelcomeUser /> : " "}
         </div>
 
         {data?.map((customer) => (
@@ -78,8 +100,8 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
                   alt="Customer Avatar"
                   width={56}
                   height={56}
-                  unoptimized 
-                  priority 
+                  unoptimized
+                  priority
                 />
 
                 <div>

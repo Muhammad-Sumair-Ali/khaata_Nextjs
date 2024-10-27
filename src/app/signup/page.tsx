@@ -1,16 +1,20 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/assets/logoKhaata.png'; 
+import { useRouter } from 'next/navigation'
+import { useAuth } from '../context/AuthContext';
 
 const SignupPage = () => {
+  const { user } = useAuth()
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const router = useRouter()
 
   const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -24,11 +28,16 @@ const SignupPage = () => {
         password,
       });
       setSuccess(response.data.message);
+      router.push('/login')
     } catch (err: any) {
       setError(err.response?.data.message || 'Signup failed');
     }
   };
-
+  useEffect(() => {
+    if (user.token) {
+      router.push('/');
+    }
+  }, [user.token, router]);
   return (
     <div className="flex justify-center items-center h-screen">
 

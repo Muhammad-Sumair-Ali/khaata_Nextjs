@@ -16,15 +16,15 @@ const DefaultPage = () => {
             unoptimized
             priority 
           />
-          <h2 className="text-3xl font-semibold text-gray-900">
-            Welcome to YourKhaata.co
-          </h2>
+          <h2 className="text-3xl font-extrabold text-gray-800 mb-2">
+        Welcome to Your Khaata!
+      </h2>
 
-          <p className="text-gray-500 mt-4">
+          <p className="text-gray-600 font-serif mt-4">
             Manage your business transactions effortlessly. Select an account on the left to get started.
           </p>
 
-          <p className="text-gray-400 mt-2">
+          <p className="text-gray-600 mt-2 font-serif">
             Keep track of your credits and debits with ease, and enjoy seamless bookkeeping.
           </p>
         </div>

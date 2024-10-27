@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logoKhaata.png";
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
   const { setUser, user }:any  = useAuth();
@@ -12,7 +13,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const router = useRouter()
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     setError("");
@@ -37,12 +38,19 @@ const LoginPage = () => {
 
       setSuccess(response.data.message);
       alert(response.data.message);
+      router.push('/');
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Login failed";
       alert(errorMessage);
       setError(errorMessage);
     }
   };
+
+  useEffect(() => {
+    if (user.token) {
+      router.push('/');
+    }
+  }, [user.token, router]);
 
   return (
     <div className="flex justify-center items-center h-screen">

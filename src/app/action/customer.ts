@@ -27,6 +27,8 @@ export const useAddCustomer =  () => {
       );
 
       alert(response.data.message || "Customer added successfully!");
+      setName("")
+      setPhone("")
       setOpen(false);
     } catch (error: any) {
       console.error("Error adding customer:", error); 
