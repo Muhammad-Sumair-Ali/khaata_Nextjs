@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 
 
 export const useAddCustomer =  () => {
-  const {user} = useAuth()
+  const {user}:any  = useAuth()
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -47,7 +47,7 @@ export const useAddCustomer =  () => {
 
 
 export const useAddTransactions = (customer) => {
-  const { user, setUser } = useAuth();
+  const { user, setUser }:any  = useAuth();
   const [amount, setAmount] = useState("");
   const [transactionType, setTransactionType] = useState("give");
   const [details, setDetails] = useState("");
@@ -108,7 +108,7 @@ export const useAddTransactions = (customer) => {
 export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
+  const { user }:any = useAuth();
 
   const fetchAllCustomers = useCallback(async () => {
     try {

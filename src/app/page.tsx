@@ -1,4 +1,4 @@
-
+'use client'
 import HomePage from "@/app/components/pages/Home"
 
 

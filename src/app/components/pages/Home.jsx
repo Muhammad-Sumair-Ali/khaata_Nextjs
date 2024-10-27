@@ -9,7 +9,7 @@ import DefaultPage from "../panel/DefaultPage";
 
 const Home = () => {
   const router = useRouter();
-  const { user } = useAuth(); 
+  const { user }:any  = useAuth(); 
   const [customerActive, setCustomerActive] = useState(null);
   const { data, error } = useFetch("/api/customers/allcustomers");
 

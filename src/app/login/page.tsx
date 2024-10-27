@@ -7,7 +7,7 @@ import Logo from "@/assets/logoKhaata.png";
 import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
-  const { setUser } = useAuth();
+  const { setUser }:any  = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

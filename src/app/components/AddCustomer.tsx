@@ -6,7 +6,7 @@ import { useAddCustomer } from "@/app/action/customer";
 
 
 const AddCustomer = () => {
-  const { user } = useAuth();
+  const { user }:any  = useAuth();
 
   const { open,
     setOpen,

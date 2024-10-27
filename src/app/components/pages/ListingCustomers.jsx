@@ -7,7 +7,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
 
 const ListingCustomers = ({ setCustomerActive, customerActive }) => {
-  const { user } = useAuth();
+  const { user }:any  = useAuth();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const { data } = useFetch("/api/customers/allcustomers");

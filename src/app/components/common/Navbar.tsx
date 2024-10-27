@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "@/assets/logoKhaata.png";
 
 const Navar = () => {
-  const { user } = useAuth();
+  const { user }:any  = useAuth();
   const { handleLogout } = useAuthentication();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

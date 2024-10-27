@@ -3,8 +3,8 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAddTransactions, useFetch } from "@/app/action/customer";
 
-const AddTransaction = ({ customer }) => {
-  const { fetchAllCustomers } = useFetch("/api/customers/allcustomers");
+const AddTransaction = ({ customer }:any ) => {
+  const { fetchAllCustomers }:any  = useFetch("/api/customers/allcustomers");
   
   const { details, setDetails, amount, setAmount, transactionType, 
     setTransactionType, handleAddTransaction, open, setOpen, loading } = useAddTransactions(customer, fetchAllCustomers);
