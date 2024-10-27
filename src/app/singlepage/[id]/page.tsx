@@ -18,8 +18,13 @@ const CustomerSingle = ({ customerActive }: any) => {
   if (!data && !customerActive) {
     return <Loading/>  }
 
-  const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-  const sortedTransactions = customerActive?.transactions?.sort((a, b) =>  new Date(b.date) - new Date(a.date));
+
+    const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
+
+    const sortedTransactions = customerActive?.transactions?.sort((a: any, b: any) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) || [];
+    
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
