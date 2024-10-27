@@ -22,11 +22,11 @@ interface CustomerData {
 
 const CustomerSingle = () => {
   const { id } = useParams();
-  const { data } = id ? useFetch(`/api/customers/getsingle/${id}`) : { data: null };
+  const { data } = id ? useFetch<CustomerData>(`/api/customers/getsingle/${id}`) : { data: null };
   const [customerActive, setCustomerActive] = useState<CustomerData | null>(null);
 
   useEffect(() => {
-    if (data) {
+    if (data && 'data' in data) { 
       setCustomerActive(data.data);
     }
   }, [data]);
