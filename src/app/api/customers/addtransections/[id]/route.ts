@@ -3,16 +3,14 @@ import Customer from "@/models/customerModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  connectDb();
+   connectDb();
 
-  // Extract the customer ID from the request URL
-  const { pathname } = request.nextUrl; // Get the full URL path
-  const id = pathname.split("/").pop(); // Extract the ID from the path
+  const { pathname } = request.nextUrl; 
+  const id = pathname.split("/").pop(); 
 
   try {
-    // Validate request body
     const { amount, type, details } = await request.json();
-    if (!amount || !type || !details) {
+    if (amount == null || type == null || details == null) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
@@ -26,14 +24,20 @@ export async function POST(request: NextRequest) {
 
     if (type === 'give') {
       customer.totalGive += amount;
-    } else {
+    } else if (type === 'get') {
       customer.totalGet += amount;
+    } else {
+      return NextResponse.json({ message: 'Invalid transaction type' }, { status: 400 });
     }
 
     await customer.save();
     return NextResponse.json({ message: 'Transaction added successfully!', customer }, { status: 200 });
+    
   } catch (error) {
     console.error("Error adding transaction:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json(
+      { message: (error as Error).message || 'An unexpected error occurred' }, // Handle unknown error messages
+      { status: 500 }
+    );
   }
 }
