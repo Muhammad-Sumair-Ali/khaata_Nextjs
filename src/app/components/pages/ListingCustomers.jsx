@@ -8,17 +8,42 @@ import Image from "next/image";
 import Logo from "@/assets/logoKhaata.png";
 import WelcomeUser from "../panel/WelcomeUser";
 import Link from "next/link";
+import axios from "axios";
+import { MdDeleteForever } from "react-icons/md";
 
 const ListingCustomers = ({ setCustomerActive, customerActive }) => {
   const { user } = useAuth();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
-  const { data } = useFetch("/api/customers/allcustomers");
-  
+  const [refreshToggle, setRefreshToggle] = useState(false);
+  const { data } = useFetch("/api/customers/allcustomers", refreshToggle);
+
+  const deleteCustomer = async (customerId) => {
+    event.stopPropagation();
+    if (confirm("Are You Sure Want To Delete Customer!") == true) {
+      try {
+        await axios.delete(`/api/customers/delete/${customerId}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        
+        alert("customer deleted successfully");
+        setRefreshToggle((prev) => !prev); 
+      } catch (error) {
+        console.error("Failed to delete customer", error);
+      }
+    } else {
+     alert("Customer delete cancelled");
+    }
+   
+    
+  };
+
   const handleResize = () => {
     setIsMobile(window.innerWidth < 720);
   };
-  
+
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -47,40 +72,38 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
         </div>
       </div>
 
-      <ul className="overflow-y-auto h-[calc(100vh-80px)] p-2 space-y-3">
-        <div className="flex flex-col items-center justify-center bg-gray-50 p-4 text-center">
-          {!user.token ? (
-            <>
-              <Image
-                src={Logo}
-                alt="YourKhaata Logo"
-                className="mb-4 rounded-full "
-                width={200}
-                height={200}
-                unoptimized
-                priority
-              />
-              <h2 className="text-3xl font-extrabold text-gray-800 mb-2">
-                Welcome to Your Khaata!
-              </h2>
-              <p className="text-lg text-gray-700 mb-4">
-                It looks like you haven't logged in yet.
-              </p>
-              <h2 className="text-lg bg-red-100 border border-red-400 text-red-600 px-4 py-3 rounded-lg shadow-md mb-4">
-                No Customers Available!{" "}
-                <span className="font-semibold">Please log in first</span>
-              </h2>
-              <Link
-                href="/login"
-                className="mt-4 px-6 py-3 bg-indigo-700 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-              >
-                Login & Register Now!
-              </Link>
-            </>
-          ) : (
-            <span className="h-0 w-0"></span>
-          )}
-        </div>
+      <ul className="overflow-y-auto h-[calc(100vh-80px)] p-2 space-y-3 -mt-2">
+        {!user.token ? (
+          <div className="flex flex-col items-center justify-center bg-gray-50 p-4 text-center">
+            <Image
+              src={Logo}
+              alt="YourKhaata Logo"
+              className="mb-4 rounded-full "
+              width={200}
+              height={200}
+              unoptimized
+              priority
+            />
+            <h2 className="text-3xl font-extrabold text-gray-800 mb-2">
+              Welcome to Your Khaata!
+            </h2>
+            <p className="text-lg text-gray-700 mb-4">
+              It looks like you haven't logged in yet.
+            </p>
+            <h2 className="text-lg bg-red-100 border border-red-400 text-red-600 px-4 py-3 rounded-lg shadow-md mb-4">
+              No Customers Available!{" "}
+              <span className="font-semibold">Please log in first</span>
+            </h2>
+            <Link
+              href="/login"
+              className="mt-4 px-6 py-3 bg-indigo-700 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+            >
+              Login & Register Now!
+            </Link>
+          </div>
+        ) : (
+          <span className="h-0 w-0"></span>
+        )}
 
         <div className="text-center my-2">
           {data?.length <= 0 ? <WelcomeUser /> : " "}
@@ -114,6 +137,12 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
                 </div>
               </div>
               <div className="flex gap-2">
+                <button
+                  onClick={() => deleteCustomer(customer._id)}
+                  className="bg-gray-50 text-black text-center rounded-lg h-16 w-[45px]  shadow-xl"
+                >
+                  <MdDeleteForever className="m-auto" size={35}/>
+                </button>
                 <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-24 flex flex-col items-center justify-center p-2 shadow-lg">
                   <p className="text-2xl font-bold">{customer.totalGet}</p>
                   <small className="text-sm">Maine liye</small>

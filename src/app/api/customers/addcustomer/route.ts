@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error('Error adding customer:', err);
     return new Response(
-      JSON.stringify({ error: (err as Error).message }), // Casting err as Error
+      JSON.stringify({ error: (err as Error).message }),
       { status: 500 }
     );
   }

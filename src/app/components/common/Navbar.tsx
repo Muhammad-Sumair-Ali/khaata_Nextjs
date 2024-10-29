@@ -20,7 +20,7 @@ const Navar = () => {
   }
 
   return (
-    <nav className="bg-white/25 text-dark backdrop-blur-lg sticky top-0 border-b-4 border-l-indigo-700 z-20">
+    <nav className="bg-white/25 text-dark backdrop-blur-lg  border-b-4 border-l-indigo-700 z-20">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-14 items-center justify-between">
           <div className="flex items-center justify-between space-x-40 sm:items-stretch sm:justify-start">

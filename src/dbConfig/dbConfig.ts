@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 
+let isConnected = false;
+
 export async function connectDb() {
+  if (isConnected) {
+    console.log("=> Using existing database connection");
+    return;
+  }
+
   try {
     const mongoUrl = process.env.MONGO_URL;
 
@@ -10,15 +17,8 @@ export async function connectDb() {
 
     await mongoose.connect(mongoUrl);
 
-    const connection = mongoose.connection;
-
-    connection.on("connected", () => {
-      console.log("Connected to MongoDB");
-    });
-
-    connection.on("error", (err) => {
-      console.error("MongoDB connection error: " + err);
-    });
+    isConnected = true; 
+    console.log("Connected to MongoDB");
 
   } catch (error) {
     console.error("Failed to connect to MongoDB");

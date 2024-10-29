@@ -108,7 +108,7 @@ export const useAddTransactions = (customer: any) => {
 
 
 
-export const useFetch = <T>(url: string) => {
+export const useFetch = <T>(url: string, refreshToggle: any) => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { user }: any = useAuth();
@@ -126,7 +126,7 @@ export const useFetch = <T>(url: string) => {
     } catch (err: any) {
       setError(err.message || "Error fetching");
     }
-  }, [url, user]);
+  }, [url, user, refreshToggle]);
 
   useEffect(() => {
     if (user) fetchAllCustomers();

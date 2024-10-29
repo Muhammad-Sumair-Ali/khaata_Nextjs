@@ -1,33 +1,35 @@
-'use client'
+"use client";
 import React from "react";
-import  { useFetch } from "@/app/action/customer";
-import { useParams } from "next/navigation"; 
+import { useFetch } from "@/app/action/customer";
+import { useParams } from "next/navigation";
 import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
 import Loading from "@/app/components/panel/Loading";
-
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const CustomerSingle = ({ customerActive }: any) => {
-
-  const { id } = useParams(); 
-  const { data }: any =  id ? useFetch(`/api/customers/getsingle/${id}`) : {};
+  const { id } = useParams();
+  const { data }: any = id ? useFetch(`/api/customers/getsingle/${id}`,customerActive) : {};
 
   if (data || data?.data) {
-     customerActive = data?.data;
+    customerActive = data?.data;
   }
   if (!data && !customerActive) {
-    return <Loading/>  }
+    return <Loading />;
+  }
 
+  const totalKitneLeneHai =
+    customerActive?.totalGive - customerActive?.totalGet;
 
-    const totalKitneLeneHai = customerActive?.totalGive - customerActive?.totalGet;
-
-    const sortedTransactions = customerActive?.transactions?.sort((a: any, b: any) => 
-      new Date(b.date).getTime() - new Date(a.date).getTime()
+  const sortedTransactions =
+    customerActive?.transactions?.sort(
+      (a: any, b: any) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
     ) || [];
-    
 
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
+
       <div className="flex align-center justify-between items-center gap-2 w-full px-12 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-3">
           <Image
@@ -38,20 +40,23 @@ const CustomerSingle = ({ customerActive }: any) => {
             height={40}
             unoptimized
             priority
-            
           />
           <h1 className="font-semibold text-xl text-gray-800">
             {customerActive?.name?.toUpperCase()}
           </h1>
         </div>
-        
-        <div className={`text-white text-lg rounded-xl h-14 flex items-center justify-center px-4 ${totalKitneLeneHai < 0 ? "bg-red-500" : "bg-blue-700"}`}>
+
+        <div
+          className={`text-white text-lg rounded-xl h-14 flex items-center justify-center px-4 ${
+            totalKitneLeneHai < 0 ? "bg-red-500" : "bg-blue-700"
+          }`}
+        >
           <strong className="block">
-            {totalKitneLeneHai < 0 
-              ? `Rs. ${Math.abs(totalKitneLeneHai)} dene hai.` 
-              : totalKitneLeneHai > 0 
-              ? `Aap ko Rs. ${totalKitneLeneHai} lene hain!` 
-              : "Sab kuch theek hai"}
+            {totalKitneLeneHai < 0
+              ? `Rs. ${Math.abs(totalKitneLeneHai)} dene hai`
+              : totalKitneLeneHai > 0
+              ? `Aap ko Rs. ${totalKitneLeneHai} lene hain!`
+              : "Sab kuch theek hai clear"}
           </strong>
         </div>
       </div>
@@ -67,22 +72,45 @@ const CustomerSingle = ({ customerActive }: any) => {
           <small className="text-sm">Maine diye</small>
         </button>
       </div>
-   
-      <div className="flex-grow p-4 bg-gray-50 rounded-lg shadow-inner w-full">
-        <div className="flex flex-col-reverse gap-4">
-          {sortedTransactions?.map((trans: any, index: any) => (
-            <div key={index} className={`flex ${trans.type === "get" ? "justify-start" : "justify-end"}`}>
-              <div className={`p-3 rounded-lg max-w-xs ${trans.type === "get" ? "bg-blue-200 text-black" : "bg-red-200 text-black"} shadow-md`}>
-                <p className="font-semibold">Amount: Rs. {trans.amount}</p>
-                <p className="text-sm text-gray-700">Details: {trans.details}</p>
-                <p className="text-xs text-gray-500">Date: {new Date(trans.date).toLocaleString()}</p>
-              </div>
-            </div>
-          ))}
+
+      <div className="flex-grow p-5 rounded-lg shadow-inner w-full">
+   <div className="flex flex-col-reverse px-2 gap-4 mb-[100px]">
+    {sortedTransactions?.map((trans: any, index: any) => (
+      <div
+        key={index}
+        className={`flex ${trans.type === "get" ? "justify-start" : "justify-end"}`}
+      >
+        <div
+          className={`relative flex items-center gap-2 p-3 md:p-4 rounded-2xl max-w-xs ${
+            trans.type === "get" ? "bg-blue-100" : "bg-red-100"
+          } shadow-lg`}
+        >
+          <div
+            className={`flex-shrink-0 p-2 rounded-full ${
+              trans.type === "get" ? "bg-blue-200" : "bg-red-200"
+            }`}
+          >
+            {trans.type === "get" ? (
+              <FaArrowUp className="text-blue-800" size={18} />
+            ) : (
+              <FaArrowDown className="text-red-800" size={18} />
+            )}
+          </div>
+          
+          <div>
+            <p className="font-semibold text-gray-800">Amount: Rs. {trans.amount}</p>
+            <p className="text-sm text-gray-600">Details: {trans.details}</p>
+            <p className="text-xs text-gray-500">
+              Date: {new Date(trans.date).toLocaleString()}
+            </p>
+          </div>
         </div>
       </div>
+    ))}
+  </div>
+</div>
 
-      <div className="p-4 fixed bottom-2 right-4">
+      <div className="fixed right-2 bottom-4 w-full max-w-[600px] sm:w-[90%] md:w-[600px]">
         <AddTransaction customer={customerActive} />
       </div>
     </div>

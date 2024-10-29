@@ -1,4 +1,5 @@
 "use client"
+import '@/assets/css/style.css'
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CustomerSingle from "@/app/singlepage/[id]/page";
