@@ -2,24 +2,15 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "@/app/context/AuthContext";
-import { useAddCustomer } from "@/app/action/customer";
+import { useCustomer } from "@/app/action/customer";
 import Link from "next/link";
 
 
 const AddCustomer = () => {
+
   const { user }:any  = useAuth();
 
-  const { open,
-    setOpen,
-    name,
-    setName,
-    phone,
-    setPhone,
-    handleAddCustomer} = useAddCustomer();
-    
-
-
-
+  const { open ,setOpen, name, setName, phone, setPhone,handleAddCustomer} = useCustomer();
 
   return (
     <>
@@ -68,12 +59,11 @@ const AddCustomer = () => {
                 <div className="relative">
                   <label className="block text-lg font-semibold text-gray-700">Phone Number</label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Customer Phone Number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="mt-2 block w-full rounded-lg bg-gray-50 border border-gray-300 py-2 px-4 text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    required
                   />
                 </div>
 

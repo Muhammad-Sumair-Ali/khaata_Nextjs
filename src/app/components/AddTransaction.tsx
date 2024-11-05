@@ -3,18 +3,11 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAddTransactions } from "@/app/action/customer";
 import { FaArrowDown ,FaArrowUp } from "react-icons/fa";
+
+
 const AddTransaction = ({ customer }: any) => {
-  const {
-    details,
-    setDetails,
-    amount,
-    setAmount,
-    setTransactionType,
-    handleAddTransaction,
-    open,
-    setOpen,
-    loading,
-  } = useAddTransactions(customer);
+  const { details,setDetails,amount, setAmount,setTransactionType,
+    handleAddTransaction,open, setOpen,loading,} = useAddTransactions(customer);
 
   const isSelect = () => {
     alert("Please select a customer first");

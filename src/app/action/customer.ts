@@ -5,49 +5,6 @@ import { useAuth } from '../context/AuthContext';
 
 
 
-
-export const useAddCustomer =  () => {
-  const {user}:any  = useAuth()
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-
-
-  const handleAddCustomer = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      const token = localStorage.getItem('token'); 
-      const response = await axios.post("/api/customers/addcustomer",
-        { name, phone },
-        {
-          headers: {
-            Authorization: `Bearer ${ user.token || token}`,
-          },
-        }
-      );
-
-      alert(response.data.message || "Customer added successfully!");
-      setName("")
-      setPhone("")
-      setOpen(false);
-    } catch (error: any) {
-      console.error("Error adding customer:", error); 
-      alert(error.response?.data?.message || "Something went wrong!");
-    }
-  }
-
-  return{
-    open,
-    setOpen,
-    name,
-    setName,
-    phone,
-    setPhone,
-    handleAddCustomer
-  }
-};
-
-
 export const useAddTransactions = (customer: any) => {
   const { user, setUser }:any  = useAuth();
   const [amount, setAmount] = useState("");
@@ -134,3 +91,76 @@ export const useFetch = <T>(url: string, refreshToggle: any) => {
 
   return { data, error };
 };
+
+
+
+
+
+export const useCustomer = () => {
+
+  const {user}:any  = useAuth()
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [refreshToggle, setRefreshToggle] = useState(false);
+
+  const handleAddCustomer = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const token = localStorage.getItem('token'); 
+      const response = await axios.post("/api/customers/addcustomer",
+        { name, phone },
+        {
+          headers: {
+            Authorization: `Bearer ${ user.token || token}`,
+          },
+        }
+      );
+
+      alert(response.data.message || "Customer added successfully!");
+      setName("")
+      setPhone("")
+      setOpen(false);
+    } catch (error: any) {
+      console.error("Error adding customer:", error); 
+      alert(error.response?.data?.message || "Something went wrong!");
+    }
+  }
+
+  const handleDeleteCustomer = async (customerId: any) => {
+    event?.preventDefault();
+
+    if (confirm("Are You Sure Want To Delete Customer!") == true) {
+      try {
+        await axios.delete(`/api/customers/delete/${customerId}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        
+        alert("customer deleted successfully");
+        setRefreshToggle((prev) => !prev); 
+      } catch (error) {
+        console.error("Failed to delete customer", error);
+      }
+    } else {
+     alert("Customer delete cancelled");
+    }
+   
+    
+  };
+
+
+
+  return{
+    open,
+    setOpen,
+    name,
+    setName,
+    phone,
+    setPhone,
+    handleAddCustomer,
+    handleDeleteCustomer,
+    refreshToggle
+  }
+}

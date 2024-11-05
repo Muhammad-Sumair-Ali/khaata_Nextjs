@@ -1,44 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useFetch } from "../../action/customer";
+import { useCustomer, useFetch } from "../../action/customer";
 import AddCustomer from "../AddCustomer";
 import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
 import Logo from "@/assets/logoKhaata.png";
 import WelcomeUser from "../panel/WelcomeUser";
 import Link from "next/link";
-import axios from "axios";
-import { MdDeleteForever } from "react-icons/md";
+
+
 
 const ListingCustomers = ({ setCustomerActive, customerActive }) => {
   const { user } = useAuth();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
-  const [refreshToggle, setRefreshToggle] = useState(false);
-  const { data } = useFetch("/api/customers/allcustomers", refreshToggle);
 
-  const deleteCustomer = async (customerId) => {
-    event.stopPropagation();
-    if (confirm("Are You Sure Want To Delete Customer!") == true) {
-      try {
-        await axios.delete(`/api/customers/delete/${customerId}`, {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        
-        alert("customer deleted successfully");
-        setRefreshToggle((prev) => !prev); 
-      } catch (error) {
-        console.error("Failed to delete customer", error);
-      }
-    } else {
-     alert("Customer delete cancelled");
-    }
-   
-    
-  };
+  const { refreshToggle } = useCustomer();
+  const { data } = useFetch("/api/customers/allcustomers", refreshToggle);
 
   const handleResize = () => {
     setIsMobile(window.innerWidth < 720);
@@ -109,53 +88,55 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
           {data?.length <= 0 ? <WelcomeUser /> : " "}
         </div>
 
-        {data?.map((customer) => (
-          <li
-            className="cursor-pointer w-full rounded-lg shadow-sm"
-            key={customer._id}
-            onClick={() => handleCustomerClick(customer)}
-          >
-            <div className="flex items-center justify-between gap-2 w-full px-2 py-2 rounded-lg ring-gray-200 ring-1 bg-white shadow-md hover:bg-blue-100 transition-all duration-200 ease-in-out">
-              <div className="flex items-center gap-2 md:gap-4">
-                <Image
-                  className=" ml-2 ring-2 ring-gray-300 rounded-full"
-                  src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customer.name}`}
-                  alt="Customer Avatar"
-                  width={56}
-                  height={56}
-                  unoptimized
-                  priority
-                />
+        {data?.map((customer) => {
+          const customerBalance = customer.totalGive - customer.totalGet; 
 
-                <div>
-                  <h1 className="font-semibold text-md text-gray-800">
-                    {customer.name.toUpperCase()}
-                  </h1>
-                  <p className="text-sm text-gray-500">
-                    Phone: {customer.phone}
-                  </p>
+          return (
+            <li
+              className="cursor-pointer w-full rounded-lg shadow-sm"
+              key={customer._id}
+              onClick={() => handleCustomerClick(customer)}
+            >
+              <div className="flex items-center justify-between gap-2 w-full px-2 py-2 rounded-lg ring-gray-200 ring-1 bg-white shadow-md hover:bg-blue-100 transition-all duration-200 ease-in-out">
+                <div className="flex items-center gap-2 md:gap-4">
+                  <Image
+                    className=" ml-2 ring-2 ring-gray-300 rounded-full"
+                    src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customer.name}`}
+                    alt="Customer Avatar"
+                    width={56}
+                    height={56}
+                    unoptimized
+                    priority
+                  />
+
+                  <div>
+                    <h1 className="font-semibold text-md text-gray-800">
+                      {customer.name.toUpperCase()}
+                    </h1>
+                    <p className="text-sm text-gray-500">
+                      Phone: {customer.phone}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <div
+                    className={` text-lg rounded-xl h-14 flex items-center justify-center px-2 ${
+                      customerBalance < 0 ? "text-red-500" : "text-blue-700"
+                    }`}
+                  >
+                    <strong className="block">
+                      {customerBalance < 0
+                        ? `Rs. ${Math.abs(customerBalance)} dene hai`
+                        : customerBalance > 0
+                        ? `Rs. ${customerBalance} lene hain!`
+                        : "Rs. 00 "}
+                    </strong>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => deleteCustomer(customer._id)}
-                  className="bg-gray-50 text-black text-center rounded-lg h-16 w-[45px]  shadow-xl"
-                >
-                  <MdDeleteForever className="m-auto" size={35}/>
-                </button>
-                <button className="bg-blue-700 text-white text-base rounded-lg h-16 w-24 flex flex-col items-center justify-center p-2 shadow-lg">
-                  <p className="text-2xl font-bold">{customer.totalGet}</p>
-                  <small className="text-sm">Maine liye</small>
-                </button>
-
-                <button className="bg-red-500 text-white text-base rounded-lg h-16 w-24 flex flex-col items-center justify-center p-2 shadow-lg">
-                  <p className="text-2xl font-bold">{customer.totalGive}</p>
-                  <small className="text-sm">Maine diye</small>
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
     </>
   );
