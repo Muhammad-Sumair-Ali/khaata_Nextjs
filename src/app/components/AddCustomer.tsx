@@ -31,7 +31,7 @@ const AddCustomer = () => {
       )}
 
       {open && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-10 bg-gray-500 bg-opacity-50">
           <div className="relative w-full max-w-lg bg-white p-8 rounded-3xl shadow-xl">
             <button
               onClick={() => setOpen(false)}

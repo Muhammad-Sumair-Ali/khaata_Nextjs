@@ -14,15 +14,16 @@ const AddTransaction = ({ customer }: any) => {
   };
 
   return (
-    <div >
+    <>
       {customer ? (
-       <div className="flex flex-nowrap items-center gap-8 justify-between w-[85%] m-auto text-lg">
+       <div className="flex flex-nowrap items-center gap-8 justify-between w-[85%] m-auto text-lg ">
        <button
          onClick={() => {
            setOpen(true);
            setTransactionType("get");
          }}
-         className="bg-blue-800 hover:bg-indigo-600 text-white font-bold py-2 px-4 w-2/3 h-16 rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+         className="bg-blue-800 hover:bg-indigo-600 text-white font-bold py-2 px-4 w-2/3 h-16 rounded-lg 
+         shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
        >
          <span>Aapne Liye</span>
          <FaArrowUp size={24} className="ml-1" />
@@ -33,7 +34,8 @@ const AddTransaction = ({ customer }: any) => {
            setOpen(true);
            setTransactionType("give");
          }}
-         className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 w-2/3 h-16 rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+         className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 w-2/3 h-16 
+         rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
        >
          <span>Aapne Diye</span>
          <FaArrowDown size={24} className="ml-1" />
@@ -109,7 +111,7 @@ const AddTransaction = ({ customer }: any) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

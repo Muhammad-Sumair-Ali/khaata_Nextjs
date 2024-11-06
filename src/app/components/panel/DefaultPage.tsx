@@ -10,7 +10,7 @@ const DefaultPage = () => {
           <Image
             alt="YourKhaata.co"
             src={Logo}
-            className="mx-auto  rounded-full  mix-blend-multiply"
+            className="mx-auto  rounded-full "
             width={250}
             height={250}
             unoptimized

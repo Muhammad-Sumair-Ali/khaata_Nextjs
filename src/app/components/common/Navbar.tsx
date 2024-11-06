@@ -5,6 +5,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logoKhaata.png";
+import AdminSettings from "../panel/AdminSettings";
 
 const Navar = () => {
   const { user }:any  = useAuth();
@@ -57,6 +58,7 @@ const Navar = () => {
               </span>
             )}
 
+              <AdminSettings admin={user.user}/>
             <div className="relative ml-1">
               <button
                 onClick={() => setDropdownOpen((prev) => !prev)}

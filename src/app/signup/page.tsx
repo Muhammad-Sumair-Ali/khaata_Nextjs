@@ -6,33 +6,18 @@ import Image from 'next/image';
 import Logo from '@/assets/logoKhaata.png'; 
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../context/AuthContext';
+import { userRegister } from '../action/auth';
 
 const SignupPage = () => {
   const { user } = useAuth()
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const router = useRouter()
+ const { handleSignup,
+  email, setEmail,
+  username, setUsername,
+  password, setPassword,
+  error,
+  success} = userRegister()
 
-  const handleSignup = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setError('');
-    setSuccess('');
-
-    try {
-      const response = await axios.post('/api/users/signup', {
-        email,
-        username,
-        password,
-      });
-      setSuccess(response.data.message);
-      router.push('/login')
-    } catch (err: any) {
-      setError(err.response?.data.message || 'Signup failed');
-    }
-  };
   useEffect(() => {
     if (user.token) {
       router.push('/');
@@ -60,8 +45,8 @@ const SignupPage = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSignup} className="space-y-6">
-        {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
-        {success && <p className="text-green-500 text-sm text-center mt-2">{success}</p>}
+        {error && <p className="text-red-500 text-md text-center mt-2">{error}</p>}
+        {success && <p className="text-green-500 text-md text-center mt-2">{success}</p>}
           <div>
             <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
              Full Name

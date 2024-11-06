@@ -20,7 +20,7 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
   const { data } = useFetch("/api/customers/allcustomers", refreshToggle);
 
   const handleResize = () => {
-    setIsMobile(window.innerWidth < 720);
+    setIsMobile(window.innerWidth < 720)
   };
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
   return (
     <>
       <div className="bg-white p-2 shadow-md">
-        <div className="flex items-center gap-2 flex-nowrap relative">
+        <div className="flex items-center gap-2 flex-nowrap z-10 ">
           <input
             type="text"
             placeholder="Search Customer"

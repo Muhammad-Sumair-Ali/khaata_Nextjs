@@ -24,7 +24,8 @@ const CustomerSingle = ({ customerActive }: any) => {
     if (!data && !customerActive) { return <Loading />;}
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
-      <div className="flex align-center justify-between items-center gap-2 w-full px-1 md:px-8 py-2 overflow-hidden bg-white shadow-md border-b border-gray-200">
+      <div className="flex align-center justify-between items-center gap-2 w-full px-1 md:px-8 py-2 overflow-hidden bg-white 
+      shadow-md border-b border-gray-200">
         <div className="flex items-center gap-2">
 
      
@@ -48,7 +49,7 @@ const CustomerSingle = ({ customerActive }: any) => {
 
       <div className="flex items-center flex-row gap-2">
       <div
-          className={`text-white text-lg rounded-xl h-14 flex items-center justify-center px-2 ${
+          className={`text-white text-md md:text-lg rounded-xl h-14 flex items-center justify-center px-2 ${
             totalGetFromCustomer < 0 ? "bg-red-500" : "bg-blue-700"
           }`}
         >
@@ -79,8 +80,8 @@ const CustomerSingle = ({ customerActive }: any) => {
         </button>
       </div>
 
-      <div className="flex-grow p-5 rounded-lg shadow-inner w-full">
-        <div className="flex flex-col-reverse px-2 gap-4 mb-[100px]">
+      <div className="flex-grow p-5  rounded-lg shadow-inner w-full">
+        <div className="flex flex-col-reverse px-2 gap-4 mb-[100px] ">
           {sortedTransactions?.map((trans: any, index: any) => (
             <div
               key={index}
@@ -89,7 +90,7 @@ const CustomerSingle = ({ customerActive }: any) => {
               }`}
             >
               <div
-                className={`relative flex items-center gap-2 p-3 md:p-4 rounded-2xl max-w-xs ${
+                className={` flex items-center gap-2 p-3 md:p-4 rounded-2xl max-w-xs ${
                   trans.type === "get" ? "bg-blue-100" : "bg-red-100"
                 } shadow-lg`}
               >
@@ -122,7 +123,7 @@ const CustomerSingle = ({ customerActive }: any) => {
         </div>
       </div>
 
-      <div className="fixed right-2 bottom-4 w-full max-w-[600px] sm:w-[90%] md:w-[600px]">
+      <div className=" fixed right-2 bottom-4 w-full max-w-[600px] sm:w-[90%] md:w-[600px]">
         <AddTransaction customer={customerActive} />
       </div>
     </div>

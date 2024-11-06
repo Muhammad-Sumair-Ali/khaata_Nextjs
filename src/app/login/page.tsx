@@ -1,50 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logoKhaata.png";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from 'next/navigation'
+import { useAuthentication } from "../action/auth";
 
 const LoginPage = () => {
-  const { setUser, user }:any  = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
+  const { user }:any  = useAuth();
   const router = useRouter()
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await axios.post("/api/users/login", {
-        email,
-        password,
-      });
-
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      console.log("Respone => ", response);
-
-      setUser((prev: typeof user) => ({
-        ...prev,
-        user: response.data.user,
-        token: response.data.token,
-      }));
-      
-
-      setSuccess(response.data.message);
-      alert(response.data.message);
-      router.push('/');
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Login failed";
-      alert(errorMessage);
-      setError(errorMessage);
-    }
-  };
+  const {  handleLogin, email,setEmail, password, setPassword,error,success} = useAuthentication()
 
   useEffect(() => {
     if (user.token) {
