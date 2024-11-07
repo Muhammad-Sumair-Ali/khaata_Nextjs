@@ -10,14 +10,14 @@ import AdminSettings from "../panel/AdminSettings";
 const Navar = () => {
   const { user }:any  = useAuth();
   const { handleLogout } = useAuthentication();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   let userProfile = "";
   if (!user?.user?.username) {
     userProfile =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnOdXyDhfh8hsqc_m7EzsYyGf8Tc4Y-r7jlg&s";
   } else {
-    userProfile = `https://ui-avatars.com/api/?background=random&color=fff&name=${user?.user?.username}`;
+    userProfile = `https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(user?.user?.username)}`;
   }
 
   return (
@@ -58,10 +58,9 @@ const Navar = () => {
               </span>
             )}
 
-              <AdminSettings admin={user.user}/>
-            <div className="relative ml-1">
-              <button
-                onClick={() => setDropdownOpen((prev) => !prev)}
+              <AdminSettings admin={user.user} setIsOpen={setIsOpen} isOpen={isOpen}/>
+            <div className="ml-1">
+              <span
                 className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 <Image
@@ -73,25 +72,8 @@ const Navar = () => {
                   unoptimized
                   priority
                 />
-              </button>
-              {dropdownOpen && (
-                <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
-                  <Link
-                    href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    Your Profile
-                  </Link>
-                  <Link
-                    href="/settings"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    Settings
-                  </Link>
-                </div>
-              )}
+              </span>
+             
             </div>
           </div>
         </div>

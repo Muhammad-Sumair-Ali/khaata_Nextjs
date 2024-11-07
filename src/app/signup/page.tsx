@@ -15,6 +15,7 @@ const SignupPage = () => {
   email, setEmail,
   username, setUsername,
   password, setPassword,
+  business,setBusiness,
   error,
   success} = userRegister()
 
@@ -60,6 +61,22 @@ const SignupPage = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="business" className="block text-sm font-medium leading-6 text-gray-900">
+            Business Name
+            </label>
+            <div className="mt-2">
+              <input
+                id="business"
+                name="business"
+                type="text"
+                placeholder="Business Name"
+                value={business}
+                onChange={(e) => setBusiness(e.target.value)}
                 className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>

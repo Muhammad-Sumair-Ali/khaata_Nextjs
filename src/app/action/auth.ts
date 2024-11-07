@@ -50,7 +50,28 @@ export function useAuthentication(){
       }
     };
 
-    
+    const handleDeleteUser = async (customerId: any) => {
+      event?.preventDefault();
+  
+      if (confirm("Are You Sure Want To Delete Your Account!") == true) {
+        try {
+          await axios.delete(`/api/users/delete/${customerId}`, {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          });
+          handleLogout()
+          alert("Account deleted successfully");
+          
+        } catch (error) {
+          console.error("Failed to delete user Account", error);
+        }
+      } else {
+       alert("user Account delete cancelled");
+      }
+     
+      
+    };
    
     return{
         handleLogout,
@@ -58,7 +79,8 @@ export function useAuthentication(){
         email,setEmail,
         password, setPassword,
         error,
-        success
+        success,
+        handleDeleteUser
     }
 }
 
@@ -66,6 +88,7 @@ export function useAuthentication(){
 export const userRegister = () => {
   
   const [email, setEmail] = useState('');
+  const [business, setBusiness] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -81,6 +104,7 @@ export const userRegister = () => {
       const response = await axios.post('/api/users/signup', {
         email,
         username,
+        business,
         password,
       });
       setSuccess(response.data.message);
@@ -95,6 +119,7 @@ export const userRegister = () => {
     email, setEmail,
     username, setUsername,
     password, setPassword,
+    business,setBusiness,
     error,
     success
   }

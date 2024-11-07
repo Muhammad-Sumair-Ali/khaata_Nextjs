@@ -129,7 +129,7 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
                         ? `Rs. ${Math.abs(customerBalance)} dene hai`
                         : customerBalance > 0
                         ? `Rs. ${customerBalance} lene hain!`
-                        : "Rs. 00 "}
+                        : (<span className="text-red-700">{"Rs. 00 "}<span className="text-blue-700 text-sm font-mono">Clear</span> </span>)}
                     </strong>
                   </div>
                 </div>

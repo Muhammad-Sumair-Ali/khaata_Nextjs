@@ -2,12 +2,10 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAddTransactions } from "@/app/action/customer";
-import { FaArrowDown ,FaArrowUp } from "react-icons/fa";
-
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const AddTransaction = ({ customer }: any) => {
-  const { details,setDetails,amount, setAmount,setTransactionType,
-    handleAddTransaction,open, setOpen,loading,} = useAddTransactions(customer);
+  const { details, setDetails, amount, setAmount, setTransactionType, handleAddTransaction, open, setOpen, loading } = useAddTransactions(customer);
 
   const isSelect = () => {
     alert("Please select a customer first");
@@ -16,32 +14,29 @@ const AddTransaction = ({ customer }: any) => {
   return (
     <>
       {customer ? (
-       <div className="flex flex-nowrap items-center gap-8 justify-between w-[85%] m-auto text-lg ">
-       <button
-         onClick={() => {
-           setOpen(true);
-           setTransactionType("get");
-         }}
-         className="bg-blue-800 hover:bg-indigo-600 text-white font-bold py-2 px-4 w-2/3 h-16 rounded-lg 
-         shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
-       >
-         <span>Aapne Liye</span>
-         <FaArrowUp size={24} className="ml-1" />
-       </button>
-       
-       <button
-         onClick={() => {
-           setOpen(true);
-           setTransactionType("give");
-         }}
-         className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 w-2/3 h-16 
-         rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
-       >
-         <span>Aapne Diye</span>
-         <FaArrowDown size={24} className="ml-1" />
-       </button>
-     </div>
-     
+        <div className="fixed bottom-3 md:right-1 flex flex-nowrap items-center md:gap-5 gap-2 justify-between md:w-[55%] w-[95%] mx-2 md:mx-4 text-lg z-10">
+          <button
+            onClick={() => {
+              setOpen(true);
+              setTransactionType("get");
+            }}
+            className="bg-blue-800 hover:bg-indigo-600 text-white font-bold py-2 px-4 w-2/3 h-16 rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 z-10"
+          >
+            <span>Aapne Liye</span>
+            <FaArrowUp size={24} className="ml-1" />
+          </button>
+          
+          <button
+            onClick={() => {
+              setOpen(true);
+              setTransactionType("give");
+            }}
+            className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 w-2/3 h-16 rounded-lg shadow-lg transition-transform duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 z-10"
+          >
+            <span>Aapne Diye</span>
+            <FaArrowDown size={24} className="ml-1" />
+          </button>
+        </div>
       ) : (
         <button
           onClick={isSelect}
@@ -52,8 +47,8 @@ const AddTransaction = ({ customer }: any) => {
       )}
 
       {open && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
-          <div className="relative w-full max-w-lg bg-white p-8 rounded-3xl shadow-xl">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 overflow-auto">
+          <div className="relative w-full max-w-lg bg-white p-8 rounded-3xl shadow-xl z-50">
             <button
               type="button"
               onClick={() => setOpen(false)}

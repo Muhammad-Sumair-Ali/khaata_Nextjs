@@ -31,7 +31,7 @@ export default function ProfileSettings({ customer }: any) {
             </button>
 
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Edit Profile
+              Edit Customer Profile
             </h2>
             {/* Profile Image */}
             <div className="flex items-center justify-between gap-2 md:gap-4 w-full shadow-lg py-2 mb-4 px-4">
@@ -54,41 +54,23 @@ export default function ProfileSettings({ customer }: any) {
             </div>
 
             <div className="flex flex-col items-center space-y-4">
-              {/* Full Name */}
+        
               <input
                 type="text"
                 name="fullName"
-                value={customer.name}
-                placeholder="Full Name"
+             
+                placeholder={customer?.name}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-
-              {/* Email */}
-              <input
+                 <input
                 type="number"
                 name="phone"
-                value={customer?.phone}
-                placeholder="phone"
+               
+                placeholder={customer?.phone}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-
-              {/* Job Title */}
-              <input
-                type="text"
-                name="Title"
-                value={customer?.Title}
-                placeholder=" Title"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-
-              {/* Location */}
-              <input
-                type="text"
-                name="location"
-                value={customer?.location}
-                placeholder="Location"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+             
+            
  
               <div className="flex items-center gap-2 w-full">
                 <button

@@ -23,6 +23,7 @@ const CustomerSingle = ({ customerActive }: any) => {
     
     if (!data && !customerActive) { return <Loading />;}
   return (
+    <>
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
       <div className="flex align-center justify-between items-center gap-2 w-full px-1 md:px-8 py-2 overflow-hidden bg-white 
       shadow-md border-b border-gray-200">
@@ -123,10 +124,12 @@ const CustomerSingle = ({ customerActive }: any) => {
         </div>
       </div>
 
-      <div className=" fixed right-2 bottom-4 w-full max-w-[600px] sm:w-[90%] md:w-[600px]">
+      <div className="overflow-hidden ">
         <AddTransaction customer={customerActive} />
       </div>
     </div>
+    </>
+
   );
 };
 
