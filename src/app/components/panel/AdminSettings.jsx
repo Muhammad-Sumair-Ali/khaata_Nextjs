@@ -1,10 +1,53 @@
 "use client";
 import { useAuthentication } from "@/app/action/auth";
+import { useAuth } from "@/app/context/AuthContext";
+import axios from "axios";
 import Image from "next/image";
+import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiEdit, FiSettings, FiTrash2 } from "react-icons/fi";
 
+
 export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
+  const { setUser } = useAuth();
+
+  const [email, setEmail] = useState('');
+  const [business, setBusiness] = useState('');
+  const [username, setUsername] = useState('');
+
+  const handleUpdateUserDetails = async (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    
+    if(!email &&!business &&!username) {
+      alert("Please fill all the details");
+      return;
+    }
+    try {
+      const response = await axios.put(`/api/users/updatedetails/${admin._id}`,{
+        email,
+        business,
+        username
+      })
+       const token = localStorage.getItem("token")
+        localStorage.removeItem("user")
+        localStorage.setItem("user" , JSON.stringify(response.data.user))
+
+
+        setUser(() => ({
+          user: response.data.user,
+          token: token
+        }));
+
+        alert("User details updated successfully");
+        setIsOpen(false);
+      
+    }catch (error) {
+      console.error("Error updating user" || error.message)
+    }
+  }
+
+
 
  const {handleDeleteUser} = useAuthentication()
   return (
@@ -21,7 +64,7 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
         <div
           className="fixed top-0 left-0 right-0 flex items-center justify-center md:h-screen h-[100vh]  w-screen bg-black bg-opacity-50"
           onClick={() => setIsOpen(false)}>
-          <div className="bg-white w-full max-w-3xl rounded-2xl p-2 md:px-4 shadow-xl mx-2 "
+          <div className="bg-white w-full max-w-3xl rounded-2xl p-2 md:px-4 shadow-xl mx-2  py-5"
             onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-3xl font-bold text-blue-900">Update Profile</h2>
@@ -60,28 +103,32 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
               </div>
             </div>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleUpdateUserDetails}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Name
+                   Full Name
                   </label>
                   <input
                     type="text"
                     id="name"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue="John Doe"
+                    placeholder={admin.username}
                   />
                 </div>
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                    Title
+                  <label htmlFor="BusinessName" className="block text-sm font-medium text-gray-700">
+                  Business Name
                   </label>
                   <input
                     type="text"
-                    id="title"
+                    id="BusinessName"
+                    value={business}
+                    onChange={(e) => setBusiness(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue="Software Developer"
+                    placeholder={admin?.businessName || "Add Your Business Name"}
                   />
                 </div>
               </div>
@@ -95,19 +142,23 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
                   <input
                     type="email"
                     id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue="john.doe@example.com"
+                    placeholder={admin.email}
                   />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Phone
+                    Role
                   </label>
                   <input
+                  disabled
+                   readOnly
                     type="tel"
-                    id="phone"
+                    id="text"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    defaultValue="+1 (555) 123-4567"
+                    defaultValue="Owner"
                   />
                 </div>
               </div>

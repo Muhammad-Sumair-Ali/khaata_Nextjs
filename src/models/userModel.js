@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  BusinessName:{
+  businessName:{
     type: String,
   }
 
