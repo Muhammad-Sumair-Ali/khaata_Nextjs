@@ -1,14 +1,56 @@
 "use client";
 import { useCustomer } from "@/app/action/customer";
+import { useAuth } from "@/app/context/AuthContext";
+import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
-import { CgClose } from "react-icons/cg";
+import { CgClose, CgKey } from "react-icons/cg";
 import { GrUserSettings } from "react-icons/gr";
 
 export default function ProfileSettings({ customer }: any) {
 
     const { handleDeleteCustomer } = useCustomer() 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { setUser } = useAuth();
+
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  
+
+  const handleUpdateCustomerDetails = async (event: any) => {
+    event.preventDefault()
+    event.stopPropagation()
+    
+    if(!name &&!phone) {
+      alert("Please fill all the details");
+      return;
+    }
+    try {
+      const response = await axios.put(`/api/customers/updatecustomerdetails/${customer._id}`,{
+        name,
+        phone
+      })
+       const token = localStorage.getItem("token")
+       console.log(response)
+        // localStorage.removeItem("user")
+        // localStorage.setItem("user" , JSON.stringify(response.data.user))
+
+
+        // setUser(() => ({
+        //   user: response.data.user,
+        //   token: token
+        // }));
+
+        alert("customer details updated successfully");
+        setIsOpen(false);
+      
+    }catch (error) {
+      console.log("Error updating customer")
+    }
+  }
+
+
 
   return (
     <div className="relative">
@@ -37,7 +79,7 @@ export default function ProfileSettings({ customer }: any) {
             <div className="flex items-center justify-between gap-2 md:gap-4 w-full shadow-lg py-2 mb-4 px-4">
               <Image
                 className=" ml-2 ring-2 ring-gray-300 rounded-full"
-                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customer.name}`}
+                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(customer?.name)}`}
                 alt="Customer Avatar"
                 width={75}
                 height={75}
@@ -54,18 +96,21 @@ export default function ProfileSettings({ customer }: any) {
             </div>
 
             <div className="flex flex-col items-center space-y-4">
-        
+            <form onSubmit={handleUpdateCustomerDetails}>
+
               <input
                 type="text"
                 name="fullName"
-             
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder={customer?.name}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
                  <input
                 type="number"
                 name="phone"
-               
+                value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                 placeholder={customer?.phone}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -74,17 +119,21 @@ export default function ProfileSettings({ customer }: any) {
  
               <div className="flex items-center gap-2 w-full">
                 <button
+                  type="submit"
                   className="mt-2 px-4 py-3 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition w-[50%]"
                 >
                   Save Changes
                 </button>
                 <button
                   onClick={() => handleDeleteCustomer(customer._id)}
+
                   className="mt-2 px-4 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition w-[50%]"
                 >
                   Delete Customer
                 </button>
               </div>
+        </form>
+           
             </div>
           </div>
         </div>

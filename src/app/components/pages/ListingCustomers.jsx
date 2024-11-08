@@ -101,7 +101,7 @@ const ListingCustomers = ({ setCustomerActive, customerActive }) => {
                 <div className="flex items-center gap-2 md:gap-4">
                   <Image
                     className=" ml-2 ring-2 ring-gray-300 rounded-full"
-                    src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customer.name}`}
+                    src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(customer.name)}`}
                     alt="Customer Avatar"
                     width={56}
                     height={56}

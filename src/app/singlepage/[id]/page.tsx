@@ -36,7 +36,7 @@ const CustomerSingle = ({ customerActive }: any) => {
    
           <Image
             className=" ring-2 rounded-full p-1"
-            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${customerActive?.name}`}
+            src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(customerActive?.name)}`}
             alt="Customer Avatar"
             width={40}
             height={40}
