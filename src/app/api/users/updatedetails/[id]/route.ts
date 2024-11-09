@@ -23,7 +23,6 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    // Find the user and update only provided fields
     const user = await User.findById(id);
     if (!user) {
       return NextResponse.json(
@@ -32,7 +31,18 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    // Update only if fields are provided
+    // Check if the email is already used by another user
+    if (email && email !== user.email) {
+      const existEmail = await User.findOne({ email });
+      if (existEmail) {
+        return NextResponse.json(
+          { message: 'Email is already in use. Please choose a different email.' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Update only the fields that are provided
     if (email) user.email = email;
     if (business) user.businessName = business;
     if (username) user.username = username;
@@ -43,10 +53,10 @@ export async function PUT(req: NextRequest) {
       { message: 'User account details updated successfully', user },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error:any) {
     console.error("Error updating user account:", error);
     return NextResponse.json(
-      { message: 'An unexpected error occurred' },
+      { message: 'An unexpected error occurred', error: error.message },
       { status: 500 }
     );
   }

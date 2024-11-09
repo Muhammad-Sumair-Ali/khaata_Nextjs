@@ -8,6 +8,7 @@ import Loading from "@/app/components/panel/Loading";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import ProfileSettings from "@/app/components/panel/ProfileSettings";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
+import TotalAmountAlert from "@/app/components/panel/CustomerTotalAmountAlert";
 
 const CustomerSingle = ({ customerActive }: any) => {
   const { id } = useParams();
@@ -25,7 +26,8 @@ const CustomerSingle = ({ customerActive }: any) => {
   return (
     <>
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
-      <div className="flex align-center justify-between items-center gap-2 w-full px-1 md:px-8 py-2 overflow-hidden bg-white 
+
+      <div className="flex align-center justify-between items-center gap-2 w-full px-1 md:px-4 py-2 overflow-hidden bg-white 
       shadow-md border-b border-gray-200">
         <div className="flex items-center gap-2">
 
@@ -48,20 +50,10 @@ const CustomerSingle = ({ customerActive }: any) => {
           </h1>
         </div>
 
-      <div className="flex items-center flex-row gap-2">
-      <div
-          className={`text-white text-md md:text-lg rounded-xl h-14 flex items-center justify-center px-2 ${
-            totalGetFromCustomer < 0 ? "bg-red-500" : "bg-blue-700"
-          }`}
-        >
-          <strong className="block">
-            {totalGetFromCustomer < 0
-              ? `Rs. ${Math.abs(totalGetFromCustomer)} dene hai`
-              : totalGetFromCustomer > 0
-              ? `Aap ko Rs. ${totalGetFromCustomer} lene hain!`
-              : "Sab kuch theek hai clear"}
-          </strong>
-        </div>
+      <div className="flex items-center flex-row gap-1">
+      <TotalAmountAlert totalGetFromCustomer={totalGetFromCustomer}/>
+
+        
         <div>
         {/* user settings here  */}
           <ProfileSettings customer={customerActive} />

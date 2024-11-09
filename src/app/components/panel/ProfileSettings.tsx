@@ -31,22 +31,12 @@ export default function ProfileSettings({ customer }: any) {
         name,
         phone
       })
-       const token = localStorage.getItem("token")
-       console.log(response)
-        // localStorage.removeItem("user")
-        // localStorage.setItem("user" , JSON.stringify(response.data.user))
-
-
-        // setUser(() => ({
-        //   user: response.data.user,
-        //   token: token
-        // }));
-
         alert("customer details updated successfully");
         setIsOpen(false);
       
-    }catch (error) {
-      console.log("Error updating customer")
+    }catch (error:any) {
+      const errorMessage = error.response?.data?.message || "Update customer failed";
+      alert(errorMessage);
     }
   }
 
@@ -79,8 +69,8 @@ export default function ProfileSettings({ customer }: any) {
             <div className="flex items-center justify-between gap-2 md:gap-4 w-full shadow-lg py-2 mb-4 px-4">
               <Image
                 className=" ml-2 ring-2 ring-gray-300 rounded-full"
-                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(customer?.name)}`}
-                alt="Customer Avatar"
+                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(customer.name)}`}
+                alt="Avatar"
                 width={75}
                 height={75}
                 unoptimized

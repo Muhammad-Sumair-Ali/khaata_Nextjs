@@ -23,11 +23,13 @@ const AddCustomer = () => {
         </Link>
       ) : (
         <button
-          onClick={() => setOpen(true)}
-          className="rounded-lg w-72 py-3 px-2 bg-blue-700 hover:bg-blue-700 text-white"
-        >
-          Add New Customer
-        </button>
+        onClick={() => setOpen(true)}
+        className="rounded-lg md:w-72 w-60 py-3 block md:px-4 px-1 text-sm md:text-md bg-gradient-to-r from-blue-600 to-blue-500
+         text-white font-semibold shadow-md hover:from-blue-500 hover:to-blue-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        Add New Customer
+      </button>
+      
       )}
 
       {open && (

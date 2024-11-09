@@ -42,8 +42,10 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
         alert("User details updated successfully");
         setIsOpen(false);
       
-    }catch (error) {
-      console.error("Error updating user" || error.message)
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Update failed";
+      alert(errorMessage);
+      
     }
   }
 
@@ -67,7 +69,7 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
           <div className="bg-white w-full max-w-3xl rounded-2xl p-2 md:px-4 shadow-xl mx-2  py-5"
             onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-2">
-              <h2 className="text-3xl font-bold text-blue-900">Update Profile</h2>
+              <h2 className="text-3xl font-bold text-blue-900">Update Admin Profile</h2>
               <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-gray-800">
                 <CgClose size={32} />
               </button>
@@ -76,10 +78,9 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
             <div className="flex justify-between items-center text-center mb-2">
               <div className="flex items-center gap-1">
                 <Image
-                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(admin?.username)}`}
+                src={`https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(admin.username)}`}
                 width={200}
                 height={200}
-                dangerouslyAllowSVG={true}
                 unoptimized 
                 alt="Profile Picture"
                 className="rounded-full w-28 h-28 border-4 border-blue-700 mb-1 transition-transform duration-300 hover:scale-105 shadow-lg"

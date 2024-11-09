@@ -14,7 +14,7 @@ const AddTransaction = ({ customer }: any) => {
   return (
     <>
       {customer ? (
-        <div className="fixed bottom-3 md:right-1 flex flex-nowrap items-center md:gap-5 gap-2 justify-between md:w-[55%] w-[95%] mx-2 md:mx-4 text-lg z-10">
+        <div className="fixed bottom-4 md:right-1 flex flex-nowrap items-center md:gap-5 gap-2 justify-between md:w-[55%] w-[95%] mx-2 md:mx-4 text-lg z-10">
           <button
             onClick={() => {
               setOpen(true);
