@@ -90,7 +90,7 @@ export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
                 htmlFor="upload_profile"
                 className="text-blue-800 font-mono px-2 py-2 text-md rounded-lg mt-2 cursor-pointer hover:text-blue-800 transition"
               >
-               {admin?.username.toUpperCase()}<br/>
+               {admin?.username?.toUpperCase()}<br/>
                <strong className="text-gray-800">Admin </strong>
               </label>
               </div>
