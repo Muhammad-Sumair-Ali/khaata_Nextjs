@@ -61,7 +61,7 @@ export const useCustomer = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [refreshToggle, setRefreshToggle] = useState(false);
-  const router = useRouter()
+  // const router = useRouter()
 
 
   const handleAddCustomer = async (event: React.FormEvent) => {
