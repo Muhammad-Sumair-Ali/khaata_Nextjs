@@ -1,54 +1,22 @@
 "use client";
-import { useAuthentication } from "@/app/action/auth";
-import { useAuth } from "@/app/context/AuthContext";
-import axios from "axios";
+import { editProfile, useAuthentication } from "@/app/action/auth";
 import Image from "next/image";
-import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiEdit, FiSettings, FiTrash2 } from "react-icons/fi";
 
 
-export default function AdminSettings({ admin ,isOpen, setIsOpen}) {
-  const { setUser } = useAuth();
+export default function AdminSettings({ admin}) {
 
-  const [email, setEmail] = useState('');
-  const [business, setBusiness] = useState('');
-  const [username, setUsername] = useState('');
-
-  const handleUpdateUserDetails = async (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-    
-    if(!email &&!business &&!username) {
-      alert("Please fill all the details");
-      return;
-    }
-    try {
-      const response = await axios.put(`/api/users/updatedetails/${admin._id}`,{
-        email,
-        business,
-        username
-      })
-       const token = localStorage.getItem("token")
-        localStorage.removeItem("user")
-        localStorage.setItem("user" , JSON.stringify(response.data.user))
-
-
-        setUser(() => ({
-          user: response.data.user,
-          token: token
-        }));
-
-        alert("User details updated successfully");
-        setIsOpen(false);
-      
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || "Update failed";
-      alert(errorMessage);
-      
-    }
-  }
-
+  const {  isOpen,
+    setIsOpen,
+    email,
+    setEmail,
+    business,
+    setBusiness,
+    username,
+    setUsername,
+    handleUpdateUserDetails} = editProfile(admin)
+ 
 
 
  const {handleDeleteUser} = useAuthentication()

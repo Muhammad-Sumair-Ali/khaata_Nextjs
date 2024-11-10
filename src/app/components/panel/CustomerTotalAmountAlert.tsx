@@ -32,7 +32,7 @@ export default function TotalAmountAlert({ totalGetFromCustomer }: any) {
         className="bg-green-200 dark:bg-green-800 border-l-4 border-green-600 dark:border-green-500 text-green-900 dark:text-green-100 p-3 rounded-lg flex items-center gap-2 hover:scale-105 transition-transform duration-300"
       >
         <FaSmile className="text-green-700 dark:text-green-300 h-6 w-6" />
-        <p className="text-md font-semibold">Sab kuch thek hai, Clear</p>
+        <p className="text-md font-semibold">Sab thek hai, Clear</p>
       </div>
     );
   };

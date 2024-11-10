@@ -10,7 +10,7 @@ import ProfileSettings from "@/app/components/panel/ProfileSettings";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import TotalAmountAlert from "@/app/components/panel/CustomerTotalAmountAlert";
 
-const CustomerSingle = ({ customerActive }: any) => {
+const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
   const { id } = useParams();
   const { data }: any = id? useFetch(`/api/customers/getsingle/${id}`, customerActive): {};
   const router = useRouter();

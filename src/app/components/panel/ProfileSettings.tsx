@@ -1,62 +1,30 @@
 "use client";
-import { useCustomer } from "@/app/action/customer";
-import { useAuth } from "@/app/context/AuthContext";
-import axios from "axios";
+import { editCustomer } from "@/app/action/customer";
 import Image from "next/image";
-import { useState } from "react";
 import { CgClose, CgKey } from "react-icons/cg";
 import { GrUserSettings } from "react-icons/gr";
 
 export default function ProfileSettings({ customer }: any) {
 
-    const { handleDeleteCustomer } = useCustomer() 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const { setUser } = useAuth();
-
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  
-
-  const handleUpdateCustomerDetails = async (event: any) => {
-    event.preventDefault()
-    event.stopPropagation()
-    
-    if(!name &&!phone) {
-      alert("Please fill all the details");
-      return;
-    }
-    try {
-      const response = await axios.put(`/api/customers/updatecustomerdetails/${customer._id}`,{
-        name,
-        phone
-      })
-        alert("customer details updated successfully");
-        setIsOpen(false);
-      
-    }catch (error:any) {
-      const errorMessage = error.response?.data?.message || "Update customer failed";
-      alert(errorMessage);
-    }
-  }
-
-
+  const {handleUpdateCustomerDetails,handleDeleteCustomer,
+     name,setName,phone, setPhone, open ,setOpen} = editCustomer(customer)
+ 
 
   return (
     <div className="relative">
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => setOpen(true)}
         className="px-2 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-700 transition"
       >
       <GrUserSettings size={35}/>
       </button>
 
-      {isOpen && (
+      {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
           <div className="relative bg-white rounded-lg shadow-lg max-w-2xl w-full h-full md:h-auto p-8">
             {/* Close Button */}
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition"
             >
               <CgClose size={24} />
@@ -85,7 +53,7 @@ export default function ProfileSettings({ customer }: any) {
               </div>
             </div>
 
-            <div className="flex flex-col items-center space-y-4">
+            <div className="flex flex-col items-center space-y-3 gap-3">
             <form onSubmit={handleUpdateCustomerDetails}>
 
               <input
@@ -94,20 +62,21 @@ export default function ProfileSettings({ customer }: any) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={customer?.name}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
               />
+        
                  <input
                 type="number"
                 name="phone"
                 value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                placeholder={customer?.phone}
+                placeholder={customer?.phone || "add phone"}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
              
             
  
-              <div className="flex items-center gap-2 w-full">
+              <div className="flex items-center gap-2 w-full mt-4">
                 <button
                   type="submit"
                   className="mt-2 px-4 py-3 bg-blue-700 text-white rounded-md hover:bg-blue-900 transition w-[50%]"

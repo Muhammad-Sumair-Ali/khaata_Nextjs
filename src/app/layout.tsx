@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 
+6
 export const metadata: Metadata = {
   title: "YourKhaata.co",
   description: "YourKhaata app developed by Muhammad Sumair - Easy To Manage Your Regular Customers' Expenses",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AuthProvider>
          
           {children}
+          
         </AuthProvider>
       </body>
     </html>

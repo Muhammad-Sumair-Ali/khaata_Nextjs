@@ -11,7 +11,7 @@ import DefaultPage from "../panel/DefaultPage";
 const Home = () => {
   const router = useRouter();
   const { user }  = useAuth(); 
-  const [customerActive, setCustomerActive] = useState(null);
+  const [customerActive, setCustomerActive] = useState(false);
   const { data, error } = useFetch("/api/customers/allcustomers");
 
   useEffect(() => {
