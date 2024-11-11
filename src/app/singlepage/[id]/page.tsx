@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useFetch, useFetchData } from "@/app/action/customer";
+import { useFetchData } from "@/app/action/customer";
 import { useParams, useRouter } from "next/navigation";
 import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
