@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-const Loading = () => {
+const CustomerLoading = () => {
   return (
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden p-4">
 
@@ -45,4 +45,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default CustomerLoading;

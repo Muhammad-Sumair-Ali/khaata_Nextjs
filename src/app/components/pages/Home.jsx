@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CustomerSingle from "@/app/singlepage/[id]/page";
 import ListingCustomers from "./ListingCustomers";
-import { useFetch } from "../../action/customer";
+import { useFetchData } from "../../action/customer";
 import { useAuth } from "@/app/context/AuthContext";
 import DefaultPage from "../panel/DefaultPage";
 
@@ -12,7 +12,8 @@ const Home = () => {
   const router = useRouter();
   const { user }  = useAuth(); 
   const [customerActive, setCustomerActive] = useState(false);
-  const { data, error } = useFetch("/api/customers/allcustomers");
+  const { data, isError } = useFetchData("/api/customers/allcustomers");
+
 
   useEffect(() => {
     if (!user) {
@@ -23,10 +24,10 @@ const Home = () => {
       if (!customer) {
         console.log("No matching customer found.");
       }
-    } else if (error) {
-      console.log("Error fetching customers:", error);
+    } else if (isError) {
+      console.log("Error fetching customers:", isError);
     }
-  }, [data, error, user, router]);
+  }, [data, isError, user, router]);
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -38,8 +39,7 @@ const Home = () => {
       </div>
       <div className="hidden sm:block md:block md:w-[60%] h-screen overflow-y-auto">
         {customerActive ? (
-          <CustomerSingle 
-            setCustomerActive={setCustomerActive} 
+          <CustomerSingle  
             customerActive={customerActive} 
           />
         ) : 

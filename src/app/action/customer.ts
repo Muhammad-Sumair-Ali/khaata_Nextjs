@@ -1,10 +1,10 @@
-'use client'
-import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react'
-import { useAuth } from '../context/AuthContext';
-import { showSuccess, showError, showConfirmation } from '@/utils/swalUtils';
+"use client";
+import axios from "axios";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { showSuccess, showError, showConfirmation } from "@/utils/swalUtils";
 import { useRouter } from "next/navigation";
-
+import { useQuery } from "@tanstack/react-query";
 
 export const useAddTransactions = (customer: any) => {
   const { user, setUser }: any = useAuth();
@@ -52,9 +52,6 @@ export const useAddTransactions = (customer: any) => {
   };
 };
 
-
-
-
 export const useCustomer = () => {
   const { user }: any = useAuth();
   const [open, setOpen] = useState(false);
@@ -63,16 +60,19 @@ export const useCustomer = () => {
   const [refreshToggle, setRefreshToggle] = useState(false);
   // const router = useRouter()
 
-
   const handleAddCustomer = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post("/api/customers/addcustomer", { name, phone }, {
-        headers: { Authorization: `Bearer ${user.token || token}` }
-      });
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "/api/customers/addcustomer",
+        { name, phone },
+        {
+          headers: { Authorization: `Bearer ${user.token || token}` },
+        }
+      );
 
-      showSuccess(response.data.message || 'Customer added successfully');
+      showSuccess(response.data.message || "Customer added successfully");
       setName("");
       setPhone("");
       setOpen(false);
@@ -80,8 +80,6 @@ export const useCustomer = () => {
       showError(error.response?.data?.message || "Something went wrong!");
     }
   };
-
- 
 
   return {
     open,
@@ -91,106 +89,102 @@ export const useCustomer = () => {
     phone,
     setPhone,
     handleAddCustomer,
-    refreshToggle
+    refreshToggle,
   };
 };
 
-
-
-
-export const editCustomer = (customer:any) =>  {
+export const editCustomer = (customer: any) => {
   const [refreshToggle, setRefreshToggle] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const { user }: any = useAuth();
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleUpdateCustomerDetails = async (event: any) => {
-    event.preventDefault()
-    event.stopPropagation()
-    
-    if(!name && !phone) {
-      showError('Please fil The All Details');
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!name && !phone) {
+      showError("Please fil The All Details");
       return;
     }
     try {
-      const response = await axios.put(`/api/customers/updatecustomerdetails/${customer._id}`,{
-        name,
-        phone
-      })
-      showSuccess(response.data.message || 'Customer Details Updated Successfully.');
-        setOpen(false);
-      setName("")
-      setPhone("")
-    }catch (error:any) {
-      const errorMessage = error.response?.data?.message || "Update customer failed";
+      const response = await axios.put(
+        `/api/customers/updatecustomerdetails/${customer._id}`,
+        {
+          name,
+          phone,
+        }
+      );
+      showSuccess(
+        response.data.message || "Customer Details Updated Successfully."
+      );
+      setOpen(false);
+      setName("");
+      setPhone("");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Update customer failed";
       showError(errorMessage);
     }
-  }
+  };
   const handleDeleteCustomer = async (customerId: any) => {
     event?.preventDefault();
     const result = await showConfirmation(
-      'Are you sure?',
-      'Do you really want to delete Customer?'
+      "Are you sure?",
+      "Do you really want to delete Customer?"
     );
 
     if (result.isConfirmed) {
       try {
         const res = await axios.delete(`/api/customers/delete/${customerId}`, {
-          headers: { Authorization: `Bearer ${user.token}` }
+          headers: { Authorization: `Bearer ${user.token}` },
         });
 
-        showSuccess(res.data.message || 'Customer has been deleted.');
+        showSuccess(res.data.message || "Customer has been deleted.");
         setRefreshToggle((prev) => !prev);
         setOpen(false);
-        router.push('/')
+        router.push("/");
       } catch (error) {
         showError("Failed to delete customer");
       }
     } else {
-      showError('Customer deletion was cancelled');
+      showError("Customer deletion was cancelled");
     }
   };
 
-  return{
+  return {
     handleUpdateCustomerDetails,
     handleDeleteCustomer,
-    name,setName,
-    phone, setPhone,
-    setOpen,open
-  }
+    name,
+    setName,
+    phone,
+    setPhone,
+    setOpen,
+    open,
+  };
+};
 
-
-}
-
-
-
-
-export const useFetch = <T>(url: string, refreshToggle: any) => {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
+export const useFetchData = (url: string, enabled = true) => {
   const { user }: any = useAuth();
 
-  const fetchAllCustomers = useCallback(async () => {
-    try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem("token") : '';
-      
-      const response = await axios.get<T>(url, {
-        headers: {
-          Authorization: `Bearer ${user?.token || token}`,
-        },
-      });
-      setData(response.data);
-    } catch (err: any) {
-      setError(err.message || "Error fetching");
-    }
-  }, [url, user, refreshToggle]);
+  const fetchAllCustomers = async () => {
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : "";
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${user?.token || token}`,
+      },
+    });
+    return response.data;
+  };
 
-  useEffect(() => {
-    if (user) fetchAllCustomers();
-  }, [user, fetchAllCustomers]);
+  const { data, isError, isLoading } = useQuery({
+    queryKey: [url],
+    queryFn: fetchAllCustomers,
+    enabled,
+  });
 
-  return { data, error };
+  return { data, isError, isLoading };
 };

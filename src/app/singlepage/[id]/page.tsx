@@ -1,18 +1,19 @@
 "use client";
 import React from "react";
-import { useFetch } from "@/app/action/customer";
+import { useFetch, useFetchData } from "@/app/action/customer";
 import { useParams, useRouter } from "next/navigation";
 import AddTransaction from "@/app/components/AddTransaction";
 import Image from "next/image";
-import Loading from "@/app/components/panel/Loading";
+import CustomerLoading from "@/app/components/loadingSkeletons/CustomerLoading";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import ProfileSettings from "@/app/components/panel/ProfileSettings";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import TotalAmountAlert from "@/app/components/panel/CustomerTotalAmountAlert";
 
-const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
+const CustomerSingle = ({ customerActive }: any) => {
   const { id } = useParams();
-  const { data }: any = id? useFetch(`/api/customers/getsingle/${id}`, customerActive): {};
+  const { data, isError, isLoading }: any = useFetchData(`/api/customers/getsingle/${id}`, !!id );
+
   const router = useRouter();
 
   if (data || data?.data) { customerActive = data?.data;}
@@ -22,7 +23,8 @@ const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
   const sortedTransactions =customerActive?.transactions?.sort(
     (a: any, b: any) =>new Date(b.date).getTime() - new Date(a.date).getTime()) || [];
     
-    if (!data && !customerActive) { return <Loading />;}
+    if (isLoading) { return <CustomerLoading />;}
+    if(isError) { return <div className="text-center text-red-600 mt-10 text-xl">Something went wrong!!</div> }
   return (
     <>
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
@@ -30,8 +32,6 @@ const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
       <div className="flex align-center justify-between items-center gap-2 w-full px-1 md:px-4 py-2 overflow-hidden bg-white 
       shadow-md border-b border-gray-200">
         <div className="flex items-center gap-2">
-
-     
     
         <IoChevronBackCircleOutline size={38} onClick={() => router.back()} 
         className={`${!id ? "hidden" : "block"} text-red-600 inline-block hover:bg-black hover:text-white rounded-full transition`}/>
