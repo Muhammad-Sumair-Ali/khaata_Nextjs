@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 6
 export const metadata: Metadata = {
