@@ -58,7 +58,7 @@ const Navar = () => {
               </span>
             )}
 
-              <AdminSettings admin={user.user} setIsOpen={setIsOpen} isOpen={isOpen}/>
+              <AdminSettings admin={user.user} />
             <div className="ml-1">
               <span
                 className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
