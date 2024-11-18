@@ -1,5 +1,5 @@
 "use client";
-import { editProfile, useAuthentication } from "@/app/action/auth";
+import { _useAuth } from "@/app/action/auth";
 import Image from "next/image";
 import { CgClose } from "react-icons/cg";
 import { FiEdit, FiSettings, FiTrash2 } from "react-icons/fi";
@@ -15,11 +15,9 @@ export default function AdminSettings({ admin}) {
     setBusiness,
     username,
     setUsername,
-    handleUpdateUserDetails} = editProfile(admin)
+    handleUpdateUserDetails,handleDeleteUser} = _useAuth(admin)
  
 
-
- const {handleDeleteUser} = useAuthentication()
   return (
     <>
       <button

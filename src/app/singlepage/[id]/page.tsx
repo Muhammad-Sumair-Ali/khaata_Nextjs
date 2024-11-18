@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFetchData } from "@/app/action/customer";
 import { useParams, useRouter } from "next/navigation";
 import AddTransaction from "@/app/components/AddTransaction";
@@ -10,21 +10,32 @@ import ProfileSettings from "@/app/components/panel/ProfileSettings";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import TotalAmountAlert from "@/app/components/panel/CustomerTotalAmountAlert";
 
-const CustomerSingle = ({ customerActive }: any) => {
+const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
+
   const { id } = useParams();
-  const { data, isError, isLoading }: any = useFetchData(`/api/customers/getsingle/${id}`, !!id );
-
   const router = useRouter();
+  const { data, isError, isLoading }: any = useFetchData(`/api/customers/getsingle/${id}`, !!id);
 
-  if (data || data?.data) { customerActive = data?.data;}
-  
+  // Update state when new data is fetched
+  useEffect(() => {
+    if (data?.data) {
+      setCustomerActive(data.data); // Properly update state
+    }
+  }, [data, setCustomerActive]);
+
+  // Log updates to customerActive
+  useEffect(() => {
+    console.log("customerActive updated in CustomerSingle:", customerActive);
+  }, [customerActive]);
+
   const totalGetFromCustomer = customerActive?.totalGive - customerActive?.totalGet;
-  
-  const sortedTransactions =customerActive?.transactions?.sort(
-    (a: any, b: any) =>new Date(b.date).getTime() - new Date(a.date).getTime()) || [];
-    
-    if (isLoading) { return <CustomerLoading />;}
-    if(isError) { return <div className="text-center text-red-600 mt-10 text-xl">Something went wrong!!</div> }
+  const sortedTransactions =
+    customerActive?.transactions?.sort(
+      (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) || [];
+
+  if (isLoading) return <CustomerLoading />;
+  if (isError) return <div>Something went wrong!!</div>;
   return (
     <>
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
@@ -55,7 +66,7 @@ const CustomerSingle = ({ customerActive }: any) => {
 
         
         <div>
-        {/* user settings here  */}
+        {/* user settings here  */} 
           <ProfileSettings customer={customerActive} />
         </div>
       </div>

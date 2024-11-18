@@ -5,13 +5,13 @@ import Image from "next/image";
 import Logo from "@/assets/logoKhaata.png";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from 'next/navigation'
-import { useAuthentication } from "../action/auth";
+import { _useAuth } from "../action/auth";
 
 const LoginPage = () => {
-
   const { user }:any  = useAuth();
   const router = useRouter()
-  const {  handleLogin, email,setEmail, password, setPassword,error,success} = useAuthentication()
+
+  const { handleLogin, email,setEmail, password, setPassword,error,success } = _useAuth(user)
 
   useEffect(() => {
     if (user.token) {

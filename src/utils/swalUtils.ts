@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 
+
 // Success alert
 export const showSuccess = (message: string) => {
   Swal.fire({
@@ -24,16 +25,14 @@ export const showError = (message: string) => {
   });
 };
 
-// Confirmation dialog
+// Confirmation alert
 export const showConfirmation = (title: string, text: string) => {
   return Swal.fire({
     title,
     text,
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No',
   });
 };

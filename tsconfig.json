@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/auth.js", "src/app/action/checkconfirmation.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/auth.js", "src/app/action/checkconfirmation.tsx", "src/app/action/customer.ts"],
   "exclude": ["node_modules"]
 }

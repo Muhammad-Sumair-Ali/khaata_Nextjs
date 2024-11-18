@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { useAuthentication } from "@/app/action/auth";
+import { _useAuth } from "@/app/action/auth";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,8 +8,8 @@ import AdminSettings from "../panel/AdminSettings";
 
 const Navar = () => {
   const { user }:any  = useAuth();
-  const { handleLogout } = useAuthentication();
-  const [isOpen, setIsOpen] = useState(false);
+  const { handleLogout } = _useAuth(user);
+ 
 
   let userProfile = "";
   if (!user?.user?.username) {

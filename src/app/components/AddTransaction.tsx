@@ -1,11 +1,14 @@
 "use client";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
-import { useAddTransactions } from "@/app/action/customer";
+import {  useCustomerActions } from "@/app/action/customer";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+// import { useAuth } from "../context/AuthContext";
 
 const AddTransaction = ({ customer }: any) => {
-  const { details, setDetails, amount, setAmount, setTransactionType, handleAddTransaction, open, setOpen, loading } = useAddTransactions(customer);
+  // const {user} = useAuth()
+  const { details, setDetails, amount, setAmount, setTransactionType,
+     addTransaction, open, setOpen, loading }:any = useCustomerActions(customer);
 
   const isSelect = () => {
     alert("Please select a customer first");
@@ -63,7 +66,7 @@ const AddTransaction = ({ customer }: any) => {
                 Add Transaction
               </h2>
 
-              <form onSubmit={handleAddTransaction} className="space-y-4">
+              <form onSubmit={addTransaction} className="space-y-4">
                 {/* Amount Input */}
                 <div className="relative">
                   <label className="block text-lg font-semibold text-gray-700">

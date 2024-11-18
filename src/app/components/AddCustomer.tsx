@@ -2,7 +2,7 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "@/app/context/AuthContext";
-import { useCustomer } from "@/app/action/customer";
+import {  useCustomerActions } from "@/app/action/customer";
 import Link from "next/link";
 
 
@@ -10,7 +10,7 @@ const AddCustomer = () => {
 
   const { user }:any  = useAuth();
 
-  const { open ,setOpen, name, setName, phone, setPhone,handleAddCustomer} = useCustomer();
+  const { open ,setOpen, name, setName, phone, setPhone,addCustomer}:any = useCustomerActions(user);
 
   return (
     <>
@@ -45,7 +45,7 @@ const AddCustomer = () => {
             <div className="space-y-6">
               <h2 className="text-3xl font-bold text-gray-800">Add New Customer</h2>
 
-              <form onSubmit={handleAddCustomer} className="space-y-4">
+              <form onSubmit={addCustomer} className="space-y-4">
                 <div className="relative">
                   <label className="block text-lg font-semibold text-gray-700">Full Name</label>
                   <input
