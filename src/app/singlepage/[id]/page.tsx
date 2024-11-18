@@ -24,9 +24,9 @@ const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
   }, [data, setCustomerActive]);
 
   // Log updates to customerActive
-  useEffect(() => {
-    console.log("customerActive updated in CustomerSingle:", customerActive);
-  }, [customerActive]);
+  // useEffect(() => {
+  //   console.log("customerActive updated in CustomerSingle:", customerActive);
+  // }, [customerActive]);
 
   const totalGetFromCustomer = customerActive?.totalGive - customerActive?.totalGet;
   const sortedTransactions =

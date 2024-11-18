@@ -42,10 +42,6 @@ export const useCustomerActions = (customer: any) => {
       });
       return response.data;
     },
-    onSuccess: (data:any) => {
-      showSuccess(data.message || "Customer fetched successfully");
-    },
-    onError: (error: any) => showError((error as any)?.response?.data?.message || "Failed to fetch customers."),
   });
 
   // Mutation for adding a new customer
@@ -209,4 +205,4 @@ export const useFetchData = (url: string, enabled = true) => {
   });
 
   return { data, isError, isLoading };
-};
+};  
