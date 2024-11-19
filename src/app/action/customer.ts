@@ -186,51 +186,52 @@ const addTransactionMutation = useMutation({
 
 
 
-export const useAddTransactions = (customer: any) => {
-  const { user, setUser }: any = useAuth();
-  const [amount, setAmount] = useState("");
-  const [transactionType, setTransactionType] = useState("give");
-  const [details, setDetails] = useState("");
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+// OLD CODE
+// export const useAddTransactions = (customer: any) => {
+//   const { user, setUser }: any = useAuth();
+//   const [amount, setAmount] = useState("");
+//   const [transactionType, setTransactionType] = useState("give");
+//   const [details, setDetails] = useState("");
+//   const [open, setOpen] = useState(false);
+//   const [loading, setLoading] = useState(false);
 
-  const handleAddTransaction = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(  
-        `/api/customers/addtransections/${customer._id}`,
-        { amount: Number(amount), type: transactionType, details },
-        { headers: { Authorization: `Bearer ${user.token || token}` } }
-      );
+//   const handleAddTransaction = async (event: React.FormEvent) => {
+//     event.preventDefault();
+//     setLoading(true);
+//     try {
+//       const token = localStorage.getItem("token");
+//       const response = await axios.post(  
+//         `/api/customers/addtransections/${customer._id}`,
+//         { amount: Number(amount), type: transactionType, details },
+//         { headers: { Authorization: `Bearer ${user.token || token}` } }
+//       );
 
-      showSuccess(response.data.message || "Transaction added successfully!");
-      setUser((prev: typeof user) => ({ ...prev, user: user }));
+//       showSuccess(response.data.message || "Transaction added successfully!");
+//       setUser((prev: typeof user) => ({ ...prev, user: user }));
 
-      setAmount("");
-      setDetails("");
-      setOpen(false);
-    } catch (error: any) {
-      showError(error.response?.data?.message || "Error adding transaction");
-    } finally {
-      setLoading(false);
-    }
-  };
+//       setAmount("");
+//       setDetails("");
+//       setOpen(false);
+//     } catch (error: any) {
+//       showError(error.response?.data?.message || "Error adding transaction");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  return {
-    amount,
-    setAmount,
-    transactionType,
-    setTransactionType,
-    details,
-    setDetails,
-    handleAddTransaction,
-    open,
-    setOpen,
-    loading,
-  };
-};
+//   return {
+//     amount,
+//     setAmount,
+//     transactionType,
+//     setTransactionType,
+//     details,
+//     setDetails,
+//     handleAddTransaction,
+//     open,
+//     setOpen,
+//     loading,
+//   };
+// };
 
 export const useFetchData = (url: string, enabled = true) => {
   const { user }: any = useAuth();
