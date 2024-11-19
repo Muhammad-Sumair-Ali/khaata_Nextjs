@@ -1,42 +1,28 @@
 "use client";
-import '@/assets/css/style.css';
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import CustomerSingle from "@/app/singlepage/[id]/page";
+import "@/assets/css/style.css";
+import React from "react";
 import ListingCustomers from "./ListingCustomers";
-import { useAuth } from "@/app/context/AuthContext";
+import CustomerSingle from "@/app/singlepage/[id]/page";
 import DefaultPage from "../panel/DefaultPage";
+import { useCustomerActive } from "@/utils/useCustomerActive";
 
 const Home = () => {
-  const router = useRouter();
-  const { user } = useAuth();
-  const [customerActive, setCustomerActive] = useState(null);
-  
-
-  useEffect(() => {
-    if (!user.token) {
-     router.push("/login")
-    }
- 
-  }, );
-
+  const { customerActive, activateCustomer } = useCustomerActive();
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Sidebar for listing customers */}
+
       <div className="w-full sm:w-[40%] md:w-[40%] h-screen overflow-y-auto border-r border-gray-300">
-        <ListingCustomers
-          customerActive={customerActive}
-          setCustomerActive={setCustomerActive}
+        <ListingCustomers 
+          customerActive={customerActive} 
+          setCustomerActive={activateCustomer} 
         />
       </div>
-
-      {/* Main content area */}
+     
       <div className="hidden sm:block md:block md:w-[60%] h-screen overflow-y-auto">
         {customerActive ? (
-          <CustomerSingle
-            setCustomerActive={setCustomerActive}
-            customerActive={customerActive}
+          <CustomerSingle 
+            customerActive={customerActive} 
           />
         ) : (
           <DefaultPage />

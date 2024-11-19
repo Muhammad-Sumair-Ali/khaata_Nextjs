@@ -7,13 +7,14 @@ import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient, QueryKey } from "@tanstack/react-query";
 
 
+
 type Transaction = {
   amount: number;
   type: string;
   details: string;
 };
-// setCustomerActive mistake is undefined
-export const useCustomerActions = (customer: any) => {
+
+export const useCustomerActions = (customer :any) => {
   const { user, setUser } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -29,7 +30,6 @@ export const useCustomerActions = (customer: any) => {
   const allCustomersKey: QueryKey = ["customers", "all"];
   const addCustomerKey: QueryKey = ["customers", "add"];
   const updateCustomerKey: QueryKey = ["customers", "update", customer?._id];
-  // const deleteCustomerKey: QueryKey = ["customers", "delete", customer?._id];
   const addTransactionKey: QueryKey = ["transactions", customer?._id, "add"];
 
   // Fetch all customers with React Query
@@ -83,10 +83,9 @@ const addTransactionMutation = useMutation({
     return response.data;
   },
   onSuccess: (data: any) => {
-    
     showSuccess(data.message || "Transaction added successfully!");
+   
     queryClient.invalidateQueries({ queryKey: allCustomersKey as QueryKey });
-
     setAmount("");
     setDetails("");
     setOpen(false);
@@ -112,6 +111,8 @@ const addTransactionMutation = useMutation({
     },
     onSuccess: (data) => {
       showSuccess(data.message || "Customer Details Updated Successfully.");
+ 
+
       setOpen(false);
       setName("");
       setPhone("");
@@ -179,10 +180,57 @@ const addTransactionMutation = useMutation({
     setPhone,
     setOpen,
     open,
+
   };
 };
 
 
+
+export const useAddTransactions = (customer: any) => {
+  const { user, setUser }: any = useAuth();
+  const [amount, setAmount] = useState("");
+  const [transactionType, setTransactionType] = useState("give");
+  const [details, setDetails] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleAddTransaction = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(  
+        `/api/customers/addtransections/${customer._id}`,
+        { amount: Number(amount), type: transactionType, details },
+        { headers: { Authorization: `Bearer ${user.token || token}` } }
+      );
+
+      showSuccess(response.data.message || "Transaction added successfully!");
+      setUser((prev: typeof user) => ({ ...prev, user: user }));
+
+      setAmount("");
+      setDetails("");
+      setOpen(false);
+    } catch (error: any) {
+      showError(error.response?.data?.message || "Error adding transaction");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    amount,
+    setAmount,
+    transactionType,
+    setTransactionType,
+    details,
+    setDetails,
+    handleAddTransaction,
+    open,
+    setOpen,
+    loading,
+  };
+};
 
 export const useFetchData = (url: string, enabled = true) => {
   const { user }: any = useAuth();
@@ -199,10 +247,11 @@ export const useFetchData = (url: string, enabled = true) => {
   };
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: [url],
+    queryKey: ["singleCustomer"], 
     queryFn: fetchAllCustomers,
     enabled,
   });
+  
 
   return { data, isError, isLoading };
 };  

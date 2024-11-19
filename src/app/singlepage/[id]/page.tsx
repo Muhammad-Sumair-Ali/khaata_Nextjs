@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useFetchData } from "@/app/action/customer";
 import { useParams, useRouter } from "next/navigation";
 import AddTransaction from "@/app/components/AddTransaction";
@@ -10,32 +10,20 @@ import ProfileSettings from "@/app/components/panel/ProfileSettings";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import TotalAmountAlert from "@/app/components/panel/CustomerTotalAmountAlert";
 
-const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
-
+const CustomerSingle = ({ customerActive }: any) => {
   const { id } = useParams();
-  const router = useRouter();
-  const { data, isError, isLoading }: any = useFetchData(`/api/customers/getsingle/${id}`, !!id);
-
-  // Update state when new data is fetched
-  useEffect(() => {
-    if (data?.data) {
-      setCustomerActive(data.data); // Properly update state
-    }
-  }, [data, setCustomerActive]);
-
-  // Log updates to customerActive
-  // useEffect(() => {
-  //   console.log("customerActive updated in CustomerSingle:", customerActive);
-  // }, [customerActive]);
-
+  const router = useRouter()
+  let { data, isError, isLoading }: any = useFetchData(`/api/customers/getsingle/${id}`, !!id );
+ 
+  if (data || data?.data) { customerActive = data?.data;}
+  
   const totalGetFromCustomer = customerActive?.totalGive - customerActive?.totalGet;
-  const sortedTransactions =
-    customerActive?.transactions?.sort(
-      (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    ) || [];
-
-  if (isLoading) return <CustomerLoading />;
-  if (isError) return <div>Something went wrong!!</div>;
+  
+  const sortedTransactions =customerActive?.transactions?.sort(
+    (a: any, b: any) =>new Date(b.date).getTime() - new Date(a.date).getTime()) || [];
+    
+    if (isLoading) { return <CustomerLoading />;}
+    if(isError) { return <div className="text-center text-red-600 mt-10 text-xl">Something went wrong!!</div> }
   return (
     <>
     <div className="w-full m-auto box-border h-auto flex flex-col overflow-hidden">
@@ -66,7 +54,7 @@ const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
 
         
         <div>
-        {/* user settings here  */} 
+        {/* user settings here  */}
           <ProfileSettings customer={customerActive} />
         </div>
       </div>
@@ -83,7 +71,6 @@ const CustomerSingle = ({ customerActive,setCustomerActive }: any) => {
           <small className="text-sm">Maine diye</small>
         </button>
       </div>
-
       <div className="flex-grow p-5  rounded-lg shadow-inner w-full">
         <div className="flex flex-col-reverse px-2 gap-4 mb-[100px] ">
           {sortedTransactions?.map((trans: any, index: any) => (

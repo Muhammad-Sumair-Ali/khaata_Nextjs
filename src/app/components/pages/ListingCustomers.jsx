@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCustomerActions, useFetchData } from "../../action/customer.ts";
+import { useCustomerActions } from "../../action/customer.ts";
 import AddCustomer from "../AddCustomer";
 import { useAuth } from "@/app/context/AuthContext";
 import Image from "next/image";
@@ -10,25 +10,20 @@ import WelcomeUser from "../panel/WelcomeUser";
 import Link from "next/link";
 import AllCustomersLoading from "../loadingSkeletons/allCustomers";
 
-
-const ListingCustomers = ({ setCustomerActive,customerActive }) => {
-
-
+const ListingCustomers = ({ setCustomerActive, customerActive }) => {
   const { user } = useAuth();
   const router = useRouter();
-  
   const [isMobile, setIsMobile] = useState(false);
 
-  const { allCustomersData:data, isError, isLoading } = useCustomerActions();
+  const { allCustomersData:data, isError, isLoading } = useCustomerActions(customerActive);
 
   const handleResize = () => setIsMobile(window.innerWidth < 720);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener("resize", handleResize); 
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   const handleCustomerClick = (customer) => {
     if (isMobile) {
@@ -37,6 +32,7 @@ const ListingCustomers = ({ setCustomerActive,customerActive }) => {
       setCustomerActive(customer);
     }
   };
+
   //  customer balance
   const formatCustomerBalance = (balance) => {
     if (balance < 0) {
@@ -51,11 +47,6 @@ const ListingCustomers = ({ setCustomerActive,customerActive }) => {
       );
     }
   };
-    
-  useEffect(() => {
-    setCustomerActive(customerActive);
-  }, [customerActive]);
-
   if (isLoading) { return <AllCustomersLoading />;}
     if(isError) { return <div className="text-center text-red-600 mt-10 text-xl">Something went wrong!!</div> }
   return (

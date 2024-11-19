@@ -1,14 +1,26 @@
 "use client";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
-import {  useCustomerActions } from "@/app/action/customer";
+import {  useAddTransactions } from "@/app/action/customer";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-// import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const AddTransaction = ({ customer }: any) => {
-  // const {user} = useAuth()
-  const { details, setDetails, amount, setAmount, setTransactionType,
-     addTransaction, open, setOpen, loading }:any = useCustomerActions(customer);
+  const {user} = useAuth()
+  const {  amount,
+    setAmount,
+    transactionType,
+    setTransactionType,
+    details,
+    setDetails,
+    handleAddTransaction:addTransaction,
+    open,
+    setOpen,
+    loading, }:any = useAddTransactions(customer);
+
+
+  // const { details, setDetails, amount, setAmount, setTransactionType,
+  //    addTransaction, open, setOpen, loading , }:any = useCustomerActions(customer);
 
   const isSelect = () => {
     alert("Please select a customer first");
